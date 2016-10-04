@@ -72,7 +72,6 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
   $scope.addPing = function(){
     console.log($scope.pingIn);
     console.log($scope.pingTime);
-    console.log(Date.parse($scope.pingTime));
   }
 
   $scope.testEmail = function(){
