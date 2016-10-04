@@ -19,18 +19,18 @@ Pings View
 * Pings will self-destruct upon “firing”
 * Buttons to edit or delete pings
 * Button to add ping
-![alt text](https://drive.google.com/open?id=0B6HjyAgWX977VEJLSjVmclg1SkU)
+![logged in view](resources/logged-in.jpg)
 
 
 New Ping Form
 * What should you not forget?
 * When should you not forget it?
 * In what manner would you like to be reminded?
-![alt text](https://drive.google.com/open?id=0B6HjyAgWX977M0xTZ1U1NzRPYVE)
+![add ping](resources/add_ping.jpg)
 
 Edit Ping Form
 Essentially the new ping form, but fields are pre-filled with previously entered data
-![alt text](https://drive.google.com/open?id=0B6HjyAgWX977OVFMNU9CWXQ2ck0)
+![edit ping](resources/edit_ping.jpg)
 
 Email Reminder
 Email: “Don’t forget to do the thing you asked me to tell you not to forget to do: <thing>”
@@ -43,13 +43,13 @@ For each possible endpoint, ability to add/edit appropriate contact information
 
 Server & Database
 Ping information will be created and stored on form submission.
-![alt text](https://drive.google.com/open?id=0B6HjyAgWX977d18yZjlUVERpSFU)
+![ping creation](resources/new_ping_flow.jpg)
 
 
 
 
 Server will check at a set interval for events with timestamps “less than” the current time, then for each matching event send pings via that event’s stored output types. Nodemailer will send email, Twilio likely will be used for SMS. Future ping types TBD.
-![alt text](https://drive.google.com/open?id=0B6HjyAgWX977d1NGcV9oeTlTbUU)
+![triggered ping](resources/triggered_ping.jpg)
 
 
 Event data:
@@ -68,30 +68,18 @@ User data:
 Project Milestones and Schedule
 -------------------------------
 
-* Proof of concept project to send communication by email via Nodemailer.
-10-3-2016
-* Front end shell
-10-4-2016
-* Server side timer running
-10-5-2016
-* Email reminders
-10-6-2016
-* SMS reminders (Twilio?)
-10-10-2016
-* Deploy to Heroku
-10-11-2016
-* Slack reminders
-10-13-2016
-* Polished front end and reminders
-10-14-2016
-* Ping “snooze” feature
-Stretch
-* Send a ping to another user (other user can accept/decline)
-Stretch
-* Validate user endpoints (confirmation email/text)
-Stretch
-* Physical mailbox reminders
-Someday
+* Proof of concept project to send communication by email via Nodemailer.  -  10-3-2016
+* Front end shell  -  10-4-2016
+* Server side timer running  -  10-5-2016
+* Email reminders  -  10-6-2016
+* SMS reminders (Twilio?)  -  10-10-2016
+* Deploy to Heroku  -  10-11-2016
+* Slack reminders  -  10-13-2016
+* Polished front end and reminders  -  10-14-2016
+* Ping “snooze” feature  -  Stretch
+* Send a ping to another user (other user can accept/decline)  -  Stretch
+* Validate user endpoints (confirmation email/text)  -  Stretch
+* Physical mailbox reminders  -  Someday
 
 Browsers
 --------
