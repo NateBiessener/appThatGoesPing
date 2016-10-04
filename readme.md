@@ -19,18 +19,18 @@ Pings View
 * Pings will self-destruct upon “firing”
 * Buttons to edit or delete pings
 * Button to add ping
-![logged in view](resources/logged-in.jpg)
+![logged in view](resources/images/logged-in.jpg)
 
 
 New Ping Form
 * What should you not forget?
 * When should you not forget it?
 * In what manner would you like to be reminded?
-![add ping](resources/add_ping.jpg)
+![add ping](resources/images/add_ping.jpg)
 
 Edit Ping Form
 Essentially the new ping form, but fields are pre-filled with previously entered data
-![edit ping](resources/edit_ping.jpg)
+![edit ping](resources/images/edit_ping.jpg)
 
 Email Reminder
 Email: “Don’t forget to do the thing you asked me to tell you not to forget to do: <thing>”
@@ -43,13 +43,13 @@ For each possible endpoint, ability to add/edit appropriate contact information
 
 Server & Database
 Ping information will be created and stored on form submission.
-![ping creation](resources/new_ping_flow.jpg)
+![ping creation](resources/images/new_ping_flow.jpg)
 
 
 
 
 Server will check at a set interval for events with timestamps “less than” the current time, then for each matching event send pings via that event’s stored output types. Nodemailer will send email, Twilio likely will be used for SMS. Future ping types TBD.
-![triggered ping](resources/triggered_ping.jpg)
+![triggered ping](resources/images/triggered_ping.jpg)
 
 
 Event data:
