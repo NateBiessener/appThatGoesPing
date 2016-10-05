@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var eventSchema = new Schema({
+//sub-doc for userSchema
+var pingSchema = new Schema({
   description: String,
   fireAt: Date, //int, seconds form of Date obj.
   endPoints: {
@@ -16,7 +17,7 @@ var userSchema = new Schema({
     email: String,
     smsPhone: String
   },
-  events: [eventSchema]
+  pings: [pingSchema]
 });
 
 var userModel = mongoose.model('users', userSchema);

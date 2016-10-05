@@ -13,6 +13,7 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
 
   console.log({date: new Date().toLocaleString(), jsDate: Date.now()});
 
+  //start authentication functions
   $scope.onLoad = function(){
     console.log( 'in init' );
     // check if a user's info is saved in localStorage
@@ -61,12 +62,14 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
       }
     })
   };
+  //end authentication functions
 
+  //create default datetime of 15 minutes from now with 0 values for seconds & milliseconds
   var now = new Date();
   now.setMilliseconds(0);
   now.setSeconds(0);
   now.setMinutes(now.getMinutes() + 15);
-
+  //set 15 minutes from current time as default reminder time
   $scope.pingTime = now;
 
   $scope.addPing = function(){
@@ -74,13 +77,14 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
     console.log($scope.pingTime);
   }
 
-  $scope.testEmail = function(){
-    console.log('in test');
-    $http({
-      method: 'GET',
-      url: '/test'
-    });
-  };
+  //nodemailer test route
+  // $scope.testEmail = function(){
+  //   console.log('in test');
+  //   $http({
+  //     method: 'GET',
+  //     url: '/test'
+  //   });
+  // };
 
 }]);
 

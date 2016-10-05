@@ -6,10 +6,10 @@ app.use(bodyParser.urlencoded({extended: false}));
 var path = require('path');
 var nodemailer = require('nodemailer');
 var xoauth2 = require('xoauth2');
-var mongoose = require('mongoose');
 
 var port = process.env.PORT || 3140;
 
+var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/ping');
 
 app.listen(port, function(){
@@ -23,6 +23,7 @@ app.get('/', function(req,res){
 var userRouter = require('./routers/userRouter');
 app.use('/users', userRouter);
 
+// nodemailer test route
 // app.get('/test', function(req, res){
 //   console.log('in /test');
 //   handleSayHello(req, res);
