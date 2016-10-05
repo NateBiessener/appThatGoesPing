@@ -12,7 +12,8 @@ var pingSchema = new Schema({
 });
 
 var userSchema = new Schema({
-  userName: String,
+  userName: String,//nickname
+  userId: String,//user_id
   contactInformation: {
     email: String,
     smsPhone: String

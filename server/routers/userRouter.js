@@ -8,27 +8,28 @@ var User = require('../models/userModel');
 //begin routes
 
 //begin /user routes
-//expects single userName in URL query
+//get all users
 router.get('/user', function(req, res){
   console.log('in /user get');
-  User.find({userName: req.query.id}, function(err, result){
+  User.find({}, function(err, results){
     if(err){
       console.log(err);
       res.sendStatus(500);
     }
     else{
-      // console.log('result:', result);
-      res.send(result);
+      // console.log('results:', results);
+      res.send(results);
     }
   });//end User find
 });//end /user get
 
-//expects body with a userName and contactInformation object
+//expects body of {userName, userId, contactInformation}
 router.post('/user', function(req, res){
   //create new User from request body
   console.log('in /user post');
   var newUser = new User({
     userName: req.body.userName,
+    userId: req.body.userId,
     contactInformation: req.body.contactInformation
   });//events are added via a separate route
   console.log(newUser);

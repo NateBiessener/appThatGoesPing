@@ -21,11 +21,38 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
       // if so, save userProfile as $scope.userProfile
       $scope.userProfile = JSON.parse( localStorage.getItem( 'userProfile' ) );
       console.log( 'loggedIn:', $scope.userProfile );
-
+      //get users and check for new user
+      $http({
+        method: 'GET',
+        url: '/users/user'
+      }).then(function(results){
+        console.log(results.data);
+        var users = results.data.map(function(index){
+          return index.userId
+        });
+        console.log(users);
+        //if user_id not in db, create and save
+        if (!(users.includes($scope.userProfile.user_id))) {
+          var objectToSend = {
+            userName: $scope.userProfile.name,//nickname
+            userId: $scope.userProfile.user_id,//user_id
+            contactInformation: {
+              email: $scope.userProfile.email
+            }
+          };
+          $http({
+            method: 'POST',
+            url: '/users/user',
+            data: objectToSend
+          }).then(function(){
+            console.log('user saved');
+          });
+        }//end if
+      });//end GET.then
       $scope.loggedIn = true;
     }
     else{
-      // if not, make sure we are logged out and empty
+      // if no local storage, make sure we are logged out and empty
       emptyLocalStorage();
       $scope.loggedIn = false;
     }
@@ -39,6 +66,7 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
         console.error( "auth error: ", err);
       } // end error
       else {
+
         // save token to localStorage
         localStorage.setItem( 'userToken', token );
         // save user profile to localStorage
