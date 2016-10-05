@@ -20,7 +20,7 @@
       <button type="button" ng-click='addPing()'>Submit</button>
       <br>
       Pending pings:
-      <div ng-repeat="ping in pings track by $index">
+      <div ng-repeat="ping in pings | orderBy:compareDate track by $index">
         {{ping.description}} at {{ping.fireAt}}
       </div>
       <br>

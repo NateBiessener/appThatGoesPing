@@ -130,13 +130,18 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
       data: objectToSend
     }).then(function(){
       console.log('saved');
-    }).then(function(){
       $scope.pingIn = '';
       setNow();
+      $scope.pings.push({
+        description: objectToSend.pingDescription,
+        fireAt: objectToSend.pingTime.toLocaleString()
+      });
     });
   }
 
-
+  $scope.compareDate = function(item){
+    return Date.parse(item.fireAt);
+  }
   //nodemailer test route
   // $scope.testEmail = function(){
   //   console.log('in test');

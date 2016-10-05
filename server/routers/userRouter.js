@@ -77,7 +77,7 @@ router.delete('/ping', function(req, res){
   query.then(function(users){
     //user is an array with a single index at this point, unwrapping
     user = users[0];
-    console.log('in then with', user);
+    // console.log('in then with', user);
 
     user.pings.id(req.body.pingId).remove();
 
@@ -114,7 +114,7 @@ router.post('/ping', function(req, res){
   query.then(function(user){
     //user is an array with a single index at this point, unwrapping
     user = user[0];
-    console.log('in then with', user);
+    // console.log('in then with', user);
 
     user.pings.push(ping);
 
