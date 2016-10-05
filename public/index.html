@@ -12,13 +12,19 @@
       <button type="button" ng-click='logIn()'>Log in</button>
     </div>
     <div ng-show="loggedIn">
-      <button type="button" ng-click='logOut()'>Log out</button>
       <input type="text" placeholder="Enter new Ping" ng-model="pingIn" value="">
       <input type="datetime-local" ng-model="pingTime" value="">
       Send By:
       Email<input type="checkbox" ng-model="pingEmail">
       Text<input type="checkbox" ng-model="pingSMS">
       <button type="button" ng-click='addPing()'>Submit</button>
+      <br>
+      Pending pings:
+      <div ng-repeat="ping in pings track by $index">
+        {{ping.description}} at {{ping.fireAt}}
+      </div>
+      <br>
+      <button type="button" ng-click='logOut()'>Log out</button>
     </div>
   </body>
 </html>

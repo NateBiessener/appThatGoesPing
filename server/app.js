@@ -24,6 +24,7 @@ app.get('/', function(req,res){
 var userRouter = require('./routers/userRouter');
 app.use('/users', userRouter);
 
+
 var checkPings = function(){
   var userQuery = User.find({}, function(err){
     // console.log('in userQuery');

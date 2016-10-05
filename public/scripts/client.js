@@ -48,6 +48,16 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
             console.log('user saved');
           });
         }//end if
+        return results;
+      }).then(function(results){
+        var user = results.data.filter(function(user){
+          return user.userId = $scope.userProfile.user_id;
+        })[0];
+        $scope.pings = user.pings.map(function(ping){
+          ping.fireAt = new Date(ping.fireAt).toLocaleString();
+          return ping;
+        });
+
       });//end GET.then
       $scope.loggedIn = true;
     }
@@ -93,12 +103,15 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
   //end authentication functions
 
   //create default datetime of 15 minutes from now with 0 values for seconds & milliseconds
-  var now = new Date();
-  now.setMilliseconds(0);
-  now.setSeconds(0);
-  now.setMinutes(now.getMinutes() + 15);
-  //set 15 minutes from current time as default reminder time
-  $scope.pingTime = now;
+  var setNow = function(){
+    var now = new Date();
+    now.setMilliseconds(0);
+    now.setSeconds(0);
+    now.setMinutes(now.getMinutes() + 15);
+    //set 15 minutes from current time as default reminder time
+    $scope.pingTime = now;
+  };
+  setNow();
 
   $scope.addPing = function(){
     var objectToSend = {
@@ -117,8 +130,12 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
       data: objectToSend
     }).then(function(){
       console.log('saved');
-    })
+    }).then(function(){
+      $scope.pingIn = '';
+      setNow();
+    });
   }
+
 
   //nodemailer test route
   // $scope.testEmail = function(){
@@ -130,6 +147,8 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
   // };
 
 }]);
+
+
 
 var emptyLocalStorage = function(){
   localStorage.removeItem( 'userProfile' );
