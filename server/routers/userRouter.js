@@ -61,14 +61,17 @@ router.delete('/user', function(req, res){
 //end /user routes
 //begin /ping routes
 
-//expects body of {user, pingDescription, pingTime, endPoints{email, sms}}
+//expects body of {userID, pingDescription, pingTime, endPoints{email, sms}}
 router.post('/ping', function(req, res){
   var ping = {
     description: req.body.pingDescription,
     fireAt: req.body.pingTime, //int, seconds form of Date obj.
-    endPoints: req.body.endPoints //object with booleans for each endpoint type
+    endPoints: {
+      email: Boolean(req.body.endPoints.email),
+      sms: Boolean(req.body.endPoints.sms)
+    }
   };
-  var query = User.find({userName: req.body.user}, function(err){
+  var query = User.find({userId: req.body.userId}, function(err){
     if(err){
       console.log(err);
       res.sendStatus(500);
@@ -91,8 +94,8 @@ router.post('/ping', function(req, res){
         console.log('ping saved');
         res.sendStatus(201);
       }
-    })
-  })
+    })//end user.save
+  })//end query.then
 });//end /ping post
 
 //end /ping routes

@@ -101,8 +101,23 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
   $scope.pingTime = now;
 
   $scope.addPing = function(){
-    console.log($scope.pingIn);
-    console.log($scope.pingTime);
+    var objectToSend = {
+      userId: $scope.userProfile.user_id,
+      pingDescription: $scope.pingIn,
+      pingTime: $scope.pingTime,
+      endPoints: {
+        email: $scope.pingEmail,
+        sms: $scope.pingSMS
+      }
+    };
+    console.log('sending', objectToSend);
+    $http({
+      method: 'POST',
+      url: '/users/ping',
+      data: objectToSend
+    }).then(function(){
+      console.log('saved');
+    })
   }
 
   //nodemailer test route
