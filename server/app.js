@@ -13,6 +13,13 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/ping');
 var User = require('./models/userModel');
 
+// Twilio Credentials
+var accountSid = ***REMOVED***;
+var authToken = ***REMOVED***;
+
+//require the Twilio module and create a REST client
+var client = require('twilio')(accountSid, authToken);
+
 app.listen(port, function(){
   console.log('server up on', port);
 });
@@ -41,22 +48,33 @@ var checkPings = function(){
       user.pings.forEach(function(ping){
         console.log('ping ready status:', ping.fireAt < Date.now());
         if (ping.fireAt < Date.now()) {
-          var mailOptions = {
-            from: 'nathaniel.biessener@gmail.com', // sender address
-            to: user.contactInformation.email, // list of receivers
-            subject: 'Ping!', // Subject line
-            text: ping.description //, // plaintext body
-            // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
-          };
-          console.log('firing ping');
-          transporter.sendMail(mailOptions, function(error, info){
-            if(error){
-              console.log(error);
-            }
-            else{
-              console.log('Message sent: ' + info.response);
+          if (ping.endPoints.email) {
+            var mailOptions = {
+              from: 'nathaniel.biessener@gmail.com', // sender address
+              to: user.contactInformation.email, // list of receivers
+              subject: 'Ping!', // Subject line
+              text: ping.description //, // plaintext body
+              // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
             };
-          });//end mailSend
+            console.log('firing ping');
+            transporter.sendMail(mailOptions, function(error, info){
+              if(error){
+                console.log(error);
+              }
+              else{
+                console.log('Message sent: ' + info.response);
+              };
+            });//end mailSend
+          }//end if email
+          if (ping.endPoints.sms) {
+            client.messages.create({
+                to: "+1" + user.contactInformation.smsPhone,
+                from: "+15072986921",
+                body: ping.description
+            }, function(err, message) {
+                console.log(message.sid);
+            });
+          }
           user.pings.id(ping._id).remove();
           user.save(function(err){
             console.log('in save');

@@ -60,9 +60,10 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
         });
         $scope.emailIn = user.contactInformation.email;
         $scope.phoneIn = user.contactInformation.smsPhone;
-        if (user.contactInformation.email && user.contactInformation.phone) {
+        if (user.contactInformation.email && user.contactInformation.smsPhone) {
           $scope.pingView = true;
           $scope.userInfoView = false;
+          setNow();
         }
         else {
           $scope.pingView = false;
