@@ -75,6 +75,7 @@ var checkPings = function(){
                 console.log(message.sid);
             });
           }
+          //!!!!!!!!----TO DO: WRAP THIS SO IT ONLY DELETES IF PING FIRED SUCCESSFULLY
           user.pings.id(ping._id).remove();
           user.save(function(err){
             console.log('in save');

@@ -148,6 +148,7 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
         description: objectToSend.pingDescription,
         fireAt: objectToSend.pingTime.toLocaleString()
       });
+      $scope.newPing = false;
     });
   }
 
@@ -187,6 +188,9 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
     $scope.userInfoView = false;
   };
 
+  $scope.makeAPing = function(){
+    $scope.newPing = true;
+  }
   //nodemailer test route
   // $scope.testEmail = function(){
   //   console.log('in test');

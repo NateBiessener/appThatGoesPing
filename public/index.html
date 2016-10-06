@@ -15,14 +15,20 @@
       <div ng-show="pingView">
         <button type="button" ng-click='viewContactInfo()'>Contact Information</button>
         <br>
-        <input type="text" placeholder="Enter new Ping" ng-model="pingIn" value="">
-        <input type="datetime-local" ng-model="pingTime" value="">
-        Send By:
-        Email<input type="checkbox" ng-model="pingEmail">
-        Text<input type="checkbox" ng-model="pingSMS">
-        <button type="button" ng-click='addPing()'>Submit</button>
+        <div ng-show="newPing">
+          <input type="text" placeholder="Enter new Ping" ng-model="pingIn" value="">
+          <input type="datetime-local" ng-model="pingTime" value="">
+          Send By:
+          Email<input type="checkbox" ng-model="pingEmail">
+          Text<input type="checkbox" ng-model="pingSMS">
+          <button type="button" ng-click='addPing()'>Submit</button>
+        </div>
+        <div ng-hide="newPing">
+          <button type="button" ng-click="makeAPing()">Add Ping</button>
+        </div>
         <br>
         Pending pings:
+        <br><br>
         <div ng-repeat="ping in pings | orderBy:compareDate track by $index">
           {{ping.description}} at {{ping.fireAt}}
         </div>
