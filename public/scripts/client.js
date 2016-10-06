@@ -1,4 +1,4 @@
-console.log('script sourced');
+// console.log('script sourced');
 
 var lock = new Auth0Lock( 'tADNo2G8xWUWbf4EraRWTRKP8mOBv9xB', 'natebiessener.auth0.com');
 // log out url, from Auth0
@@ -10,13 +10,13 @@ var myApp = angular.module('myApp', []);
 
 myApp.controller('aController', ['$scope', '$http', function($scope, $http){
   $scope.pings = [];
-  console.log('ng');
+  // console.log('ng');
 
-  console.log({date: new Date().toLocaleString(), jsDate: Date.now()});
+  // console.log({date: new Date().toLocaleString(), jsDate: Date.now()});
 
   //start authentication functions
   $scope.onLoad = function(){
-    console.log( 'in init' );
+    // console.log( 'in init' );
     // check if a user's info is saved in localStorage
     if( JSON.parse( localStorage.getItem( 'userProfile' ) ) ){
       // if so, save userProfile as $scope.userProfile
@@ -59,7 +59,7 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
           return ping;
         });
         $scope.emailIn = user.contactInformation.email;
-        $scope.phoneIn = user.contactInformation.phone;
+        $scope.phoneIn = user.contactInformation.smsPhone;
         if (user.contactInformation.email && user.contactInformation.phone) {
           $scope.pingView = true;
           $scope.userInfoView = false;
@@ -150,6 +150,28 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
     });
   }
 
+
+  $scope.updateContact = function(){
+    console.log('updating contact information');
+    var objectToSend = {
+      userId: $scope.userProfile.user_id,
+      contactInformation: {
+        email: $scope.emailIn,
+        smsPhone: $scope.phoneIn
+      }
+    }
+    console.log(objectToSend);
+    $http({
+      method:'PUT',
+      url:'users/user',
+      data: objectToSend
+    }).then(function(){
+      console.log('update successful');
+      $scope.emailIn = objectToSend.contactInformation.email;
+      $scope.phoneIn = objectToSend.contactInformation.smsPhone;
+    });
+  };
+  //used to order ng-repeat by actual time
   $scope.compareDate = function(item){
     return Date.parse(item.fireAt);
   }

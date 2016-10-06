@@ -46,6 +46,30 @@ router.post('/user', function(req, res){
   })//end save
 });//end /user post
 
+//expects {userId, contactInformation}
+router.put('/user', function(req, res){
+  // console.log('in /user put with:', req.body);
+  var user = User.find({userId: req.body.userId}, function(err, results){
+    if(err){
+      console.log(err);
+    }
+    else{
+      // console.log('results:', results);
+      //do nothing
+    }
+  });//end User find
+  User.findOneAndUpdate(user, {contactInformation: req.body.contactInformation}, function(err,result){
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+    }
+    else {
+      // console.log(result);
+      res.sendStatus(200);
+    }
+  });
+});
+
 //for use during testing
 router.delete('/user', function(req, res){
   User.remove({userId: req.query.id}, function(err, result){
