@@ -48,7 +48,7 @@ router.post('/user', function(req, res){
 
 //for use during testing
 router.delete('/user', function(req, res){
-  User.remove({}, function(err, result){
+  User.remove({userId: req.query.id}, function(err, result){
     if (err) {
       console.log(err);
     }

@@ -12,19 +12,32 @@
       <button type="button" ng-click='logIn()'>Log in</button>
     </div>
     <div ng-show="loggedIn">
-      <input type="text" placeholder="Enter new Ping" ng-model="pingIn" value="">
-      <input type="datetime-local" ng-model="pingTime" value="">
-      Send By:
-      Email<input type="checkbox" ng-model="pingEmail">
-      Text<input type="checkbox" ng-model="pingSMS">
-      <button type="button" ng-click='addPing()'>Submit</button>
-      <br>
-      Pending pings:
-      <div ng-repeat="ping in pings | orderBy:compareDate track by $index">
-        {{ping.description}} at {{ping.fireAt}}
+      <div ng-show="pingView">
+        <button type="button" ng-click='viewContactInfo()'>Contact Information</button>
+        <br>
+        <input type="text" placeholder="Enter new Ping" ng-model="pingIn" value="">
+        <input type="datetime-local" ng-model="pingTime" value="">
+        Send By:
+        Email<input type="checkbox" ng-model="pingEmail">
+        Text<input type="checkbox" ng-model="pingSMS">
+        <button type="button" ng-click='addPing()'>Submit</button>
+        <br>
+        Pending pings:
+        <div ng-repeat="ping in pings | orderBy:compareDate track by $index">
+          {{ping.description}} at {{ping.fireAt}}
+        </div>
+        <br>
+        <button type="button" ng-click='logOut()'>Log out</button>
       </div>
-      <br>
-      <button type="button" ng-click='logOut()'>Log out</button>
+      <div ng-show="userInfoView">
+        <button type="button" ng-click='viewPings()'>Pings</button>
+        <br>
+        Email Address:<input type="email" ng-model="emailIn" value="" placeholder='name@example.com'>
+        <br>
+        Phone Number:<input type="tel" ng-model="phoneIn" value="" placeholder='123-456-7890'>
+        <br>
+        <button type="button" ng-click="updateContact()">Submit</button>
+      </div>
     </div>
   </body>
 </html>

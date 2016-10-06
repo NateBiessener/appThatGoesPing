@@ -9,6 +9,7 @@ var logOutUrl = 'https://natebiessener.auth0.com/v2/logout';
 var myApp = angular.module('myApp', []);
 
 myApp.controller('aController', ['$scope', '$http', function($scope, $http){
+  $scope.pings = [];
   console.log('ng');
 
   console.log({date: new Date().toLocaleString(), jsDate: Date.now()});
@@ -57,9 +58,19 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
           ping.fireAt = new Date(ping.fireAt).toLocaleString();
           return ping;
         });
-
+        $scope.emailIn = user.contactInformation.email;
+        $scope.phoneIn = user.contactInformation.phone;
+        if (user.contactInformation.email && user.contactInformation.phone) {
+          $scope.pingView = true;
+          $scope.userInfoView = false;
+        }
+        else {
+          $scope.pingView = false;
+          $scope.userInfoView = true;
+        }
       });//end GET.then
       $scope.loggedIn = true;
+
     }
     else{
       // if no local storage, make sure we are logged out and empty
@@ -142,6 +153,17 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
   $scope.compareDate = function(item){
     return Date.parse(item.fireAt);
   }
+
+  $scope.viewContactInfo = function(){
+    $scope.pingView = false;
+    $scope.userInfoView = true;
+  };
+
+  $scope.viewPings = function(){
+    $scope.pingView = true;
+    $scope.userInfoView = false;
+  };
+
   //nodemailer test route
   // $scope.testEmail = function(){
   //   console.log('in test');
