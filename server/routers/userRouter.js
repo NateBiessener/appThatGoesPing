@@ -92,6 +92,7 @@ router.get('/ping', function(req, res){
 
 //delete ping, expects body of {userId, pingId}
 router.delete('/ping', function(req, res){
+  console.log('in ping delete:', req.body);
   var query = User.find({userId: req.body.userId}, function(err){
     if(err){
       console.log(err);

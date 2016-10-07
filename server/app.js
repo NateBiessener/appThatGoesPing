@@ -4,18 +4,21 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 var path = require('path');
+//import nodemailer and xoauth2 (used to provide gmail with credentials)
 var nodemailer = require('nodemailer');
 var xoauth2 = require('xoauth2');
 
 var port = process.env.PORT || 3140;
 
+//import mongoose, connect to db and bring in User model
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/ping');
 var User = require('./models/userModel');
 
+var credentials = require('./credentials');
 // Twilio Credentials
-var accountSid = ***REMOVED***;
-var authToken = ***REMOVED***;
+var accountSid = credentials.twilio.accountSid;
+var authToken = credentials.twilio.authToken;
 
 //require the Twilio module and create a REST client
 var client = require('twilio')(accountSid, authToken);
@@ -100,11 +103,11 @@ var transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
     xoauth2: xoauth2.createXOAuth2Generator({
-      user: ***REMOVED***,
+      user: credentials.xoauth2.user,
       scope: 'https://mail.google.com',
-      clientId: ***REMOVED***,
-      clientSecret: ***REMOVED***,
-      refreshToken: ***REMOVED***,
+      clientId: credentials.xoauth2.clientId,
+      clientSecret: credentials.xoauth2.clientSecret,
+      refreshToken: credentials.xoauth2.refreshToken,
     })
   }
 });
