@@ -1,6 +1,6 @@
 // console.log('script sourced');
 
-var lock = new Auth0Lock( 'tADNo2G8xWUWbf4EraRWTRKP8mOBv9xB', 'natebiessener.auth0.com');
+var lock = new Auth0Lock( 'L8O525uQHqNfaKoZqbovFurBHjPNzD8i', 'natebiessener.auth0.com');
 // log out url, from Auth0
 var logOutUrl = 'https://natebiessener.auth0.com/v2/logout';
 
@@ -234,7 +234,6 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
   };
 
 }]);//end controller
-
 
 //does what it says
 var emptyLocalStorage = function(){
