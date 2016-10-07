@@ -50,10 +50,12 @@ var checkPings = function(){
       // console.log('in each with', user);
       user.pings.forEach(function(ping){
         console.log('ping ready status:', ping.fireAt < Date.now());
+        //if ping is ready to fire
         if (ping.fireAt < Date.now()) {
+          //if ping should be send by email
           if (ping.endPoints.email) {
             var mailOptions = {
-              from: 'nathaniel.biessener@gmail.com', // sender address
+              from: credentials.xoauth2.user, // sender address
               to: user.contactInformation.email, // list of receivers
               subject: 'Ping!', // Subject line
               text: ping.description //, // plaintext body
@@ -69,6 +71,7 @@ var checkPings = function(){
               };
             });//end mailSend
           }//end if email
+          //if ping should be sent by sms
           if (ping.endPoints.sms) {
             client.messages.create({
                 to: "+1" + user.contactInformation.smsPhone,
@@ -78,7 +81,7 @@ var checkPings = function(){
                 console.log(message.sid);
             });
           }
-          //!!!!!!!!----TO DO: WRAP THIS SO IT ONLY DELETES IF PING FIRED SUCCESSFULLY
+          //!!!!!!!!----TO DO: WRAP THIS (IN A PROMISE?) SO IT ONLY DELETES IF PING FIRED SUCCESSFULLY
           user.pings.id(ping._id).remove();
           user.save(function(err){
             console.log('in save');
@@ -96,8 +99,8 @@ var checkPings = function(){
   });
 };
 
-var minute = 60000;
-setInterval(checkPings, minute);
+var interval = 20000;
+setInterval(checkPings, interval);
 
 var transporter = nodemailer.createTransport({
   service: 'Gmail',
