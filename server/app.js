@@ -1,5 +1,7 @@
 var express = require('express');
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -23,7 +25,7 @@ var authToken = credentials.twilio.authToken;
 //require the Twilio module and create a REST client
 var client = require('twilio')(accountSid, authToken);
 
-app.listen(port, function(){
+http.listen(port, function(){
   console.log('server up on', port);
 });
 
@@ -51,7 +53,7 @@ var checkPings = function(){
       user.pings.forEach(function(ping){
         console.log('ping ready status:', ping.fireAt < Date.now());
         //if ping is ready to fire
-        if (ping.fireAt < Date.now()) {
+        if (ping.fireAt < Date.now())   {
           //if ping should be send by email
           if (ping.endPoints.email) {
             var mailOptions = {
@@ -90,6 +92,7 @@ var checkPings = function(){
             }
             else {
               console.log('ping deleted');
+              io.emit('pingDelete');
             }
           })//end user.save
         }//end ping fire

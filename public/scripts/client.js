@@ -4,11 +4,16 @@ var lock = new Auth0Lock( 'tADNo2G8xWUWbf4EraRWTRKP8mOBv9xB', 'natebiessener.aut
 // log out url, from Auth0
 var logOutUrl = 'https://natebiessener.auth0.com/v2/logout';
 
-
+var socket = io();
 
 var myApp = angular.module('myApp', []);
 
 myApp.controller('aController', ['$scope', '$http', function($scope, $http){
+  socket.on('pingDelete', function(){
+    console.log('in socket pingDelete event');
+    displayPings();
+  })
+
   $scope.pings = [];
   // console.log('ng');
 
