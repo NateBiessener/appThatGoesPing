@@ -54,47 +54,60 @@ var checkPings = function(){
         console.log('ping ready status:', ping.fireAt < Date.now());
         //if ping is ready to fire
         if (ping.fireAt < Date.now())   {
-          //if ping should be send by email
-          if (ping.endPoints.email) {
-            var mailOptions = {
-              from: credentials.xoauth2.user, // sender address
-              to: user.contactInformation.email, // list of receivers
-              subject: 'Ping!', // Subject line
-              text: ping.description //, // plaintext body
-              // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
-            };
-            console.log('firing ping');
-            transporter.sendMail(mailOptions, function(error, info){
-              if(error){
-                console.log(error);
+          var firingPing = new Promise(
+            function(resolve, reject){
+              //if ping should be send by email
+              if (ping.endPoints.email) {
+                var mailOptions = {
+                  from: credentials.xoauth2.user, // sender address
+                  to: user.contactInformation.email, // list of receivers
+                  subject: 'Ping!', // Subject line
+                  text: ping.description //, // plaintext body
+                  // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
+                };
+                console.log('firing ping');
+                transporter.sendMail(mailOptions, function(error, info){
+                  if(error){
+                    console.log(error);
+                  }
+                  else{
+                    console.log('Message sent: ' + info.response);
+                    resolve(info.response);
+                  }
+                });//end mailSend
+              }//end if email
+              //if ping should be sent by sms
+              if (ping.endPoints.sms) {
+                client.messages.create({
+                    to: "+1" + user.contactInformation.smsPhone,
+                    from: "+15072986921",
+                    body: ping.description
+                }, function(err, message) {
+                  if (err) {
+                    console.log(err);
+                  }
+                  else {
+                    console.log('sms sent:', message.sid);
+                    resolve(message.sid);
+                  }
+                });//end client.messages.create
+              }//end if sms
+            }//end promise function
+          );//end promise
+          //ping will be deleted if any of the endpoints were successfully reached
+          firingPing.then(function(){
+            user.pings.id(ping._id).remove();
+            user.save(function(err){
+              console.log('in deletion save');
+              if (err) {
+                console.log(err);
               }
-              else{
-                console.log('Message sent: ' + info.response);
-              };
-            });//end mailSend
-          }//end if email
-          //if ping should be sent by sms
-          if (ping.endPoints.sms) {
-            client.messages.create({
-                to: "+1" + user.contactInformation.smsPhone,
-                from: "+15072986921",
-                body: ping.description
-            }, function(err, message) {
-                console.log(message.sid);
-            });
-          }
-          //!!!!!!!!----TO DO: WRAP THIS (IN A PROMISE?) SO IT ONLY DELETES IF PING FIRED SUCCESSFULLY
-          user.pings.id(ping._id).remove();
-          user.save(function(err){
-            console.log('in save');
-            if (err) {
-              console.log(err);
-            }
-            else {
-              console.log('ping deleted');
-              io.emit('pingDelete');
-            }
-          })//end user.save
+              else {
+                console.log('ping deleted');
+                io.emit('pingDelete');
+              }
+            });//end user.save
+          });//end firingPing.then
         }//end ping fire
       });
     });
