@@ -109,9 +109,53 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
     });
   }
 
+  //set edit form values to the clicked ping's values
   $scope.editPing = function(ping){
-    console.log(ping);
+    $scope.editPingIn = ping.description;
+    $scope.editPingTime = new Date(ping.fireAt);
+    $scope.editPingEmail = ping.endPoints.email;
+    $scope.editPingSMS = ping.endPoints.sms;
+    //set for use in $scope.actuallyEditPing
+    $scope.pingId = ping._id;
+    //change to edit ping form view
+    $scope.editPingView = true;
+    $scope.pingView = false;
   };//end editPing
+
+  //sends update information to server and updates display
+  $scope.actuallyEditPing = function(){
+    //build objectToSend from form
+    var objectToSend = {
+      userId: $scope.userProfile.user_id,
+      //_id will have been set by $scope.editPing
+      _id: $scope.pingId,
+      description: $scope.editPingIn,
+      fireAt: $scope.editPingTime,
+      endPoints: {
+        email: $scope.editPingEmail,
+        sms: $scope.editPingSMS
+      }
+    };
+    $http({
+      method: 'PUT',
+      url: 'users/ping',
+      data: objectToSend
+    }).then(function(){
+      console.log('ping updated');
+      //update pings display
+      displayPings();
+      //switch back to pings display
+      $scope.editPingView = false;
+      $scope.pingView = true;
+    })
+  }
+
+  //switches from edit ping form view to pings view
+  $scope.backToThePings = function(){
+    $scope.editPingView = false;
+    $scope.pingView = true;
+  };
+
   //delete 'this' ping and update display
   $scope.deletePing = function(id){
     var objectToSend = {

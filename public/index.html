@@ -45,6 +45,16 @@
         <br>
         <button type="button" ng-click="updateContact()">Submit</button>
       </div>
+      <div ng-show="editPingView">
+        <button type="button" ng-click='backToThePings()'>Back</button>
+        <br>
+        <input type="text" placeholder="Enter new Ping" ng-model="editPingIn" value="">
+        <input type="datetime-local" ng-model="editPingTime" value="">
+        Send By:
+        Email<input type="checkbox" ng-model="editPingEmail">
+        Text<input type="checkbox" ng-model="editPingSMS">
+        <button type="button" ng-click='actuallyEditPing()'>Submit</button>
+      </div>
     </div>
   </body>
 </html>
