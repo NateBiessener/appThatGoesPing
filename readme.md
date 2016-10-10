@@ -6,7 +6,8 @@ Nathaniel Biessener
 
 Application Overview
 --------------------
-Machine App that goes “Ping” is a full-stack web application that will send reminders to you through as many channels as possible. MVP goal is to send either SMS or email reminders that were requested through an input form. Users will only be able to view their own ‘pings’. Stretch goals include additional reminder channels (Slack, physical mailbox, phone calls) and a prettier input form.
+App that goes “Ping” is a full-stack web application that will send reminders to you through as many channels as possible. Initial goal is to send either SMS or email reminders that were requested through an input form. Users will only be able to view their own ‘pings’. Stretch goals include additional reminder channels (Slack, physical mailbox, phone calls) and a prettier input form.
+
 
 Application Features
 --------------------
@@ -49,6 +50,9 @@ Ping information will be created and stored on form submission.
 
 
 Server will check at a set interval for events with timestamps “less than” the current time, then for each matching event send pings via that event’s stored output types. Nodemailer will send email, Twilio likely will be used for SMS. Future ping types TBD.
+
+* server only deletes sent pings if they successfully reach their endpoing
+* server notifies active clients of ping deletion using socket.io so that the client display updates
 ![triggered ping](resources/images/triggered_ping.jpg)
 
 
