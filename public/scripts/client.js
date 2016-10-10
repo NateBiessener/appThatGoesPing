@@ -78,6 +78,8 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
   //start ping functions
   //hide 'add ping' button and reveal new ping form
   $scope.makeAPing = function(){
+    // set new datetime default,
+    setNow();
     $scope.newPing = true;
   };
 
@@ -99,15 +101,17 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
       data: objectToSend
     }).then(function(){
       console.log('saved');
-      //clear form, set new datetime default, refresh pings display
+      //clear form, refresh pings display
       $scope.pingIn = '';
-      setNow();
       displayPings();
       //hide form, show Add Ping button
       $scope.newPing = false;
     });
   }
 
+  $scope.editPing = function(ping){
+    console.log(ping);
+  };//end editPing
   //delete 'this' ping and update display
   $scope.deletePing = function(id){
     var objectToSend = {
@@ -209,13 +213,13 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
       //contactInformation form fields pre-populate with existing data
       $scope.emailIn = user.contactInformation.email;
       $scope.phoneIn = user.contactInformation.smsPhone;
-      //if all contact fields have a value, show pings view
+      // if all contact fields have a value, show pings view
       if (user.contactInformation.email && user.contactInformation.smsPhone) {
         $scope.pingView = true;
         $scope.userInfoView = false;
         setNow();
       }
-      //else show contactInformation view
+      // else show contactInformation view
       else {
         $scope.pingView = false;
         $scope.userInfoView = true;

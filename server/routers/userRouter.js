@@ -48,17 +48,7 @@ router.post('/user', function(req, res){
 
 //expects {userId, contactInformation}
 router.put('/user', function(req, res){
-  // console.log('in /user put with:', req.body);
-  var user = User.find({userId: req.body.userId}, function(err, results){
-    if(err){
-      console.log(err);
-    }
-    else{
-      // console.log('results:', results);
-      //do nothing
-    }
-  });//end User find
-  User.findOneAndUpdate(user, {contactInformation: req.body.contactInformation}, function(err,result){
+  User.findOneAndUpdate(req.body.userId, {contactInformation: req.body.contactInformation}, function(err,result){
     if (err) {
       console.log(err);
       res.sendStatus(500);
@@ -84,10 +74,39 @@ router.delete('/user', function(req, res){
 
 //end /user routes
 //begin /ping routes
+//expects {user_id, (ping)_id, description, fireAt, endPoints{}}
+router.put('/ping', function(req, res){
+  var query = User.find({userId: req.body.userId}, function(err){
+    if(err){
+      console.log(err);
+      res.sendStatus(500);
+    }
+  });
+  query.then(function(user){
+    //user is an array with a single index at this point, unwrapping
+    user = user[0];
+    //for each potential property, update ping if property was sent
+    if (req.body.description) {
+      user.pings.id(req.body._id).description = req.body.description;
+    }
+    if (req.body.fireAt) {
+      user.pings.id(req.body._id).fireAt = req.body.fireAt;
+    }
+    if (req.body.endPoints) {
+      user.pings.id(req.body._id).endPoints = req.body.endPoints;
+    }
+    user.save(function(err){
+        if (err) {
+          console.log(err);
+          res.sendStatus(500);
+        }
+        else {
+          res.sendStatus(200);
+        }
+    })
 
-
-router.get('/ping', function(req, res){
-
+    //
+  });//end query.then
 });
 
 //delete ping, expects body of {userId, pingId}

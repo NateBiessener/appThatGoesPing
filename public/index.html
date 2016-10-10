@@ -31,7 +31,7 @@
         Pending pings:
         <br><br>
         <div ng-repeat="ping in pings | orderBy:compareDate track by $index">
-          {{ping.description}} at {{ping.fireAt}} <button type="button" ng-click="deletePing(ping._id)">X</button>
+          {{ping.description}} at {{ping.fireAt}} <button type="button" ng-click="deletePing(ping._id)">&#x2613;</button><button type="button" ng-click="editPing(ping)">&#x270E;</button>
         </div>
         <br>
         <button type="button" ng-click='logOut()'>Log out</button>
