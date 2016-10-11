@@ -7,7 +7,8 @@ var pingSchema = new Schema({
   fireAt: Date, //int, seconds form of Date obj.
   endPoints: {
     email: Boolean,
-    sms: Boolean
+    sms: Boolean,
+    voice: Boolean
   }
 });
 
@@ -16,7 +17,7 @@ var userSchema = new Schema({
   userId: String,//user_id
   contactInformation: {
     email: String,
-    smsPhone: String
+    smsPhone: String//TO DO -- ADD voicePhone
   },
   pings: [pingSchema]
 });

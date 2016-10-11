@@ -23,7 +23,8 @@ var accountSid = credentials.twilio.accountSid;
 var authToken = credentials.twilio.authToken;
 
 //require the Twilio module and create a REST client
-var client = require('twilio')(accountSid, authToken);
+var twilio = require('twilio');
+var client = twilio(accountSid, authToken);
 
 http.listen(port, function(){
   console.log('server up on', port);
@@ -36,6 +37,7 @@ app.get('/', function(req,res){
 var userRouter = require('./routers/userRouter');
 app.use('/users', userRouter);
 
+var response;
 
 var checkPings = function(){
   var userQuery = User.find({}, function(err){
@@ -92,6 +94,34 @@ var checkPings = function(){
                   }
                 });//end client.messages.create
               }//end if sms
+              //if ping should be sent by phone call
+              if (ping.endPoints.voice) {
+                response = new twilio.TwimlResponse();
+                //Paing is sic for pronunciation purposes
+                response.pause().say('Paing! ' + ping.description, {
+                    voice:'woman',
+                    language:'en-gb'
+                });
+
+                client.calls.create({
+                  url: 'https://ae46fafb.ngrok.io/voice',
+                  to: "+1" + user.contactInformation.smsPhone,//TO DO --- LET USERS ENTER SEPARATE PHONE #'s'
+                  from: "+15072986921"
+                }, function(err, call) {
+                  if (err) {
+                    console.log(err);
+                  }
+                  else {
+                    console.log('call sent:', call.sid);
+                    resolve(call.sid);
+                  }
+                });//end client.calls.create
+
+              }
+              //if no endPoints, just resolve the promise so ping self-destructs
+              if (!ping.endPoints.email && !ping.endPoints.sms && !ping.endPoints.voice) {
+                resolve();
+              }
             }//end promise function
           );//end promise
           //ping will be deleted if any of the endpoints were successfully reached
@@ -114,6 +144,12 @@ var checkPings = function(){
     console.log('checked pings');
   });
 };
+
+//route for making text to speech calls
+app.post('/voice', (req, res) => {
+  res.type('text/xml');
+  res.send(response.toString());
+});
 
 var interval = 20000;
 setInterval(checkPings, interval);

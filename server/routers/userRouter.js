@@ -139,14 +139,15 @@ router.delete('/ping', function(req, res){
   })//end query.then
 });//end /ping post
 
-//expects body of {userID, pingDescription, pingTime, endPoints{email, sms}}
+//expects body of {userID, pingDescription, pingTime, endPoints{email, sms, voice}}
 router.post('/ping', function(req, res){
   var ping = {
     description: req.body.pingDescription,
     fireAt: req.body.pingTime, //int, seconds form of Date obj.
     endPoints: {
       email: Boolean(req.body.endPoints.email),
-      sms: Boolean(req.body.endPoints.sms)
+      sms: Boolean(req.body.endPoints.sms),
+      voice: Boolean(req.body.endPoints.voice)
     }
   };
   var query = User.find({userId: req.body.userId}, function(err){
