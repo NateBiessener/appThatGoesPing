@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 var path = require('path');
+var request = require('request');
 //import nodemailer and xoauth2 (used to provide gmail with credentials)
 var nodemailer = require('nodemailer');
 var xoauth2 = require('xoauth2');
@@ -118,6 +119,20 @@ var checkPings = function(){
                 });//end client.calls.create
 
               }
+              //if ping should be sent by slack
+              if (ping.endPoints.slack) {
+                request.post(
+                    'https://slack.com/api/chat.postMessage',
+                    //using my personal slack ID for now as POC
+                    { form: { token: credentials.slack.testToken, channel: credentials.slack.myId, text: ping.description} },
+                    function (error, response, body) {
+                        if (!error && response.statusCode == 200) {
+                            console.log(body)
+                            resolve(body);
+                        }
+                    }
+                );
+              }
               //if no endPoints, just resolve the promise so ping self-destructs
               if (!ping.endPoints.email && !ping.endPoints.sms && !ping.endPoints.voice) {
                 resolve();
@@ -167,6 +182,9 @@ var transporter = nodemailer.createTransport({
   }
 });
 
+app.get('/slack', function(req, res){
+
+});
 
 
 // nodemailer test route

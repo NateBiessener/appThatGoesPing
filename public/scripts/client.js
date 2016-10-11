@@ -92,7 +92,8 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
       endPoints: {
         email: $scope.pingEmail,
         sms: $scope.pingSMS,
-        voice: $scope.pingVoice
+        voice: $scope.pingVoice,
+        slack: $scope.pingSlack
       }
     };
     console.log('sending', objectToSend);
@@ -117,6 +118,7 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
     $scope.editPingEmail = ping.endPoints.email;
     $scope.editPingSMS = ping.endPoints.sms;
     $scope.editPingVoice = ping.endPoints.voice;
+    $scope.editPingSlack = ping.endPoints.slack;
     //set for use in $scope.actuallyEditPing
     $scope.pingId = ping._id;
     //change to edit ping form view
@@ -136,7 +138,8 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
       endPoints: {
         email: $scope.editPingEmail,
         sms: $scope.editPingSMS,
-        voice: $scope.editPingVoice
+        voice: $scope.editPingVoice,
+        slack: $scope.editPingSlack
       }
     };
     $http({

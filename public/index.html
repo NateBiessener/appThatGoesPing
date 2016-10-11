@@ -23,6 +23,7 @@
           Email<input type="checkbox" ng-model="pingEmail">
           Text<input type="checkbox" ng-model="pingSMS">
           Voice<input type="checkbox" ng-model="pingVoice">
+          Slack<input type="checkbox" ng-model="pingSlack">
           <button type="button" ng-click='addPing()'>Submit</button>
         </div>
         <div ng-hide="newPing">
@@ -55,6 +56,7 @@
         Email<input type="checkbox" ng-model="editPingEmail">
         Text<input type="checkbox" ng-model="editPingSMS">
         Voice<input type="checkbox" ng-model="editPingVoice">
+        Slack<input type="checkbox" ng-model="editPingSlack">
         <button type="button" ng-click='actuallyEditPing()'>Submit</button>
       </div>
     </div>

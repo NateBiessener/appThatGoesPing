@@ -8,7 +8,8 @@ var pingSchema = new Schema({
   endPoints: {
     email: Boolean,
     sms: Boolean,
-    voice: Boolean
+    voice: Boolean,
+    slack: Boolean
   }
 });
 
@@ -17,7 +18,9 @@ var userSchema = new Schema({
   userId: String,//user_id
   contactInformation: {
     email: String,
-    smsPhone: String//TO DO -- ADD voicePhone
+    smsPhone: String
+    //TO DO -- ADD voicePhone
+    //TO DO -- ADD SLACK
   },
   pings: [pingSchema]
 });

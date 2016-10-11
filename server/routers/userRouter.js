@@ -147,7 +147,8 @@ router.post('/ping', function(req, res){
     endPoints: {
       email: Boolean(req.body.endPoints.email),
       sms: Boolean(req.body.endPoints.sms),
-      voice: Boolean(req.body.endPoints.voice)
+      voice: Boolean(req.body.endPoints.voice),
+      slack: Boolean(req.body.endPoints.slack)
     }
   };
   var query = User.find({userId: req.body.userId}, function(err){
