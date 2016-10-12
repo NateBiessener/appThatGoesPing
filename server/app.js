@@ -20,12 +20,10 @@ mongoose.connect(mongoConnection);
 var User = require('./models/userModel');
 
 // Twilio Credentials
-var accountSid = process.env.twilioAccountSid;
-var authToken = process.env.twilioAuthToken;
 
 //require the Twilio module and create a REST client
 var twilio = require('twilio');
-var client = twilio(accountSid, authToken);
+var client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 http.listen(port, function(){
   console.log('server up on', port);
