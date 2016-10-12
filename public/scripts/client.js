@@ -234,46 +234,55 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
       });
       console.log(users);
       //if user_id not in db, create and save
-      if (!(users.includes($scope.userProfile.user_id))) {
-        var objectToSend = {
-          userName: $scope.userProfile.name,//nickname
-          userId: $scope.userProfile.user_id,//user_id
-          contactInformation: {
-            email: $scope.userProfile.email
+      var checkForUser = new Promise(
+        function(resolve, reject){
+          if (!(users.includes($scope.userProfile.user_id))) {
+            var objectToSend = {
+              userName: $scope.userProfile.name,//nickname
+              userId: $scope.userProfile.user_id,//user_id
+              contactInformation: {
+                email: $scope.userProfile.email
+              }
+            };
+            $http({
+              method: 'POST',
+              url: '/users/user',
+              data: objectToSend
+            }).then(function(){
+              console.log('user saved');
+              resolve();
+            });
+          }//end if
+          else {
+            resolve();
           }
-        };
-        $http({
-          method: 'POST',
-          url: '/users/user',
-          data: objectToSend
-        }).then(function(){
-          console.log('user saved');
+        }//end promise function
+      );//end Promise
+      checkForUser.then(function(){
+        //filter all users down to logged in user, then store in variable (single element array, hence [0])
+        var user = results.data.filter(function(user){
+          return user.userId = $scope.userProfile.user_id;
+        })[0];
+        //format firing times for pings
+        $scope.pings = user.pings.map(function(ping){
+          ping.fireAt = new Date(ping.fireAt).toLocaleString();
+          return ping;
         });
-      }//end if
-
-      //filter all users down to logged in user, then store in variable (single element array, hence [0])
-      var user = results.data.filter(function(user){
-        return user.userId = $scope.userProfile.user_id;
-      })[0];
-      //format firing times for pings
-      $scope.pings = user.pings.map(function(ping){
-        ping.fireAt = new Date(ping.fireAt).toLocaleString();
-        return ping;
+        //contactInformation form fields pre-populate with existing data
+        $scope.emailIn = user.contactInformation.email;
+        $scope.phoneIn = user.contactInformation.smsPhone;
+        // if all contact fields have a value, show pings view
+        if (user.contactInformation.email && user.contactInformation.smsPhone) {
+          $scope.pingView = true;
+          $scope.userInfoView = false;
+          setNow();
+        }
+        // else show contactInformation view
+        else {
+          $scope.pingView = false;
+          $scope.userInfoView = true;
+        }
       });
-      //contactInformation form fields pre-populate with existing data
-      $scope.emailIn = user.contactInformation.email;
-      $scope.phoneIn = user.contactInformation.smsPhone;
-      // if all contact fields have a value, show pings view
-      if (user.contactInformation.email && user.contactInformation.smsPhone) {
-        $scope.pingView = true;
-        $scope.userInfoView = false;
-        setNow();
-      }
-      // else show contactInformation view
-      else {
-        $scope.pingView = false;
-        $scope.userInfoView = true;
-      }
     });//end GET.then
   };//end displayPings
 
