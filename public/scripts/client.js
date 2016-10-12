@@ -250,39 +250,45 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
               data: objectToSend
             }).then(function(){
               console.log('user saved');
-              resolve();
+              resolve(true);
             });
           }//end if
           else {
             console.log('in else');
-            resolve();
+            resolve(false);
           }
         });//end $q
       };//end checkForUser
-      checkForUser().then(function(){
+      checkForUser().then(function(newUser){
         // console.log('in then');
-        //filter all users down to logged in user, then store in variable (single element array, hence [0])
-        var user = results.data.filter(function(user){
-          return user.userId === $scope.userProfile.user_id;
-        })[0];
-        //format firing times for pings
-        $scope.pings = user.pings.map(function(ping){
-          ping.fireAt = new Date(ping.fireAt).toLocaleString();
-          return ping;
-        });
-        //contactInformation form fields pre-populate with existing data
-        $scope.emailIn = user.contactInformation.email;
-        $scope.phoneIn = user.contactInformation.smsPhone;
-        // if all contact fields have a value, show pings view
-        if (user.contactInformation.email && user.contactInformation.smsPhone) {
-          $scope.pingView = true;
-          $scope.userInfoView = false;
-          setNow();
+        //recursion to refresh display if the user is new, even though it's lazy :)
+        if (newUser) {
+          displayPings();
         }
-        // else show contactInformation view
         else {
-          $scope.pingView = false;
-          $scope.userInfoView = true;
+          //filter all users down to logged in user, then store in variable (single element array, hence [0])
+          var user = results.data.filter(function(user){
+            return user.userId === $scope.userProfile.user_id;
+          })[0];
+          //format firing times for pings
+          $scope.pings = user.pings.map(function(ping){
+            ping.fireAt = new Date(ping.fireAt).toLocaleString();
+            return ping;
+          });
+          //contactInformation form fields pre-populate with existing data
+          $scope.emailIn = user.contactInformation.email;
+          $scope.phoneIn = user.contactInformation.smsPhone;
+          // if all contact fields have a value, show pings view
+          if (user.contactInformation.email && user.contactInformation.smsPhone) {
+            $scope.pingView = true;
+            $scope.userInfoView = false;
+            setNow();
+          }
+          // else show contactInformation view
+          else {
+            $scope.pingView = false;
+            $scope.userInfoView = true;
+          }
         }
       });
     });//end GET.then

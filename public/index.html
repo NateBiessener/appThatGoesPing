@@ -36,7 +36,6 @@
           {{ping.description}} at {{ping.fireAt}} <button type="button" ng-click="deletePing(ping._id)">&#x2613;</button><button type="button" ng-click="editPing(ping)">&#x270E;</button>
         </div>
         <br>
-        <button type="button" ng-click='logOut()'>Log out</button>
       </div>
       <div ng-show="userInfoView">
         <button type="button" ng-click='viewPings()'>Pings</button>
@@ -59,6 +58,7 @@
         Slack<input type="checkbox" ng-model="editPingSlack">
         <button type="button" ng-click='actuallyEditPing()'>Submit</button>
       </div>
+      <button type="button" ng-click='logOut()'>Log out</button>
     </div>
   </body>
 </html>
