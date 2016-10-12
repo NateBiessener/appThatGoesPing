@@ -36,7 +36,7 @@ app.get('/', function(req,res){
 var userRouter = require('./routers/userRouter');
 app.use('/users', userRouter);
 
-var response;
+var response = '';
 
 var checkPings = function(){
   var userQuery = User.find({}, function(err){
@@ -95,15 +95,16 @@ var checkPings = function(){
               }//end if sms
               //if ping should be sent by phone call
               if (ping.endPoints.voice) {
+                response = '';
                 response = new twilio.TwimlResponse();
                 //Paing is sic for pronunciation purposes
-                response.pause().say('Paing! ' + ping.description, {
+                response.pause().say('Ping! ' + ping.description, {
                     voice:'woman',
                     language:'en-gb'
                 });
 
                 client.calls.create({
-                  url: 'https://ad1a8e03.ngrok.io/voice',
+                  url: 'https://glacial-citadel-87639.herokuapp.com/voice',
                   to: "+1" + user.contactInformation.smsPhone,//TO DO --- LET USERS ENTER SEPARATE PHONE #'s'
                   from: "+15072986921"
                 }, function(err, call) {
