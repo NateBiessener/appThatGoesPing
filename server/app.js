@@ -105,7 +105,7 @@ var checkPings = function(){
                 });
 
                 client.calls.create({
-                  url: 'https://ae46fafb.ngrok.io/voice',
+                  url: 'https://ad1a8e03.ngrok.io/voice',
                   to: "+1" + user.contactInformation.smsPhone,//TO DO --- LET USERS ENTER SEPARATE PHONE #'s'
                   from: "+15072986921"
                 }, function(err, call) {
@@ -134,7 +134,7 @@ var checkPings = function(){
                 );
               }
               //if no endPoints, just resolve the promise so ping self-destructs
-              if (!ping.endPoints.email && !ping.endPoints.sms && !ping.endPoints.voice) {
+              if (!ping.endPoints.email && !ping.endPoints.sms && !ping.endPoints.voice && !ping.endPoints.slack) {
                 resolve();
               }
             }//end promise function
@@ -180,10 +180,6 @@ var transporter = nodemailer.createTransport({
       refreshToken: credentials.xoauth2.refreshToken,
     })
   }
-});
-
-app.get('/slack', function(req, res){
-
 });
 
 
