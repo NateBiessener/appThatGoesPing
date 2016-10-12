@@ -7,21 +7,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 var path = require('path');
 var request = require('request');
+require('dotenv').config();
 //import nodemailer and xoauth2 (used to provide gmail with credentials)
 var nodemailer = require('nodemailer');
 var xoauth2 = require('xoauth2');
 
 var port = process.env.PORT || 3140;
-
+var mongoConnection = process.env.DATABASE_URL || 'mongodb://localhost:27017/ping'
 //import mongoose, connect to db and bring in User model
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/ping');
+mongoose.connect(mongoConnection);
 var User = require('./models/userModel');
 
-var credentials = require('./credentials');
 // Twilio Credentials
-var accountSid = credentials.twilio.accountSid;
-var authToken = credentials.twilio.authToken;
+var accountSid = process.env.twilioAccountSid;
+var authToken = process.env.twilioAuthToken;
 
 //require the Twilio module and create a REST client
 var twilio = require('twilio');
@@ -62,7 +62,7 @@ var checkPings = function(){
               //if ping should be send by email
               if (ping.endPoints.email) {
                 var mailOptions = {
-                  from: credentials.xoauth2.user, // sender address
+                  from: process.env.xoauth2User, // sender address
                   to: user.contactInformation.email, // list of receivers
                   subject: 'Ping!', // Subject line
                   text: ping.description //, // plaintext body
@@ -105,7 +105,7 @@ var checkPings = function(){
                 });
 
                 client.calls.create({
-                  url: 'https://glacial-citadel-87639.herokuapp.com/voice',
+                  url: 'https://ad1a8e03.ngrok.io/voice',
                   to: "+1" + user.contactInformation.smsPhone,//TO DO --- LET USERS ENTER SEPARATE PHONE #'s'
                   from: "+15072986921"
                 }, function(err, call) {
@@ -124,7 +124,7 @@ var checkPings = function(){
                 request.post(
                     'https://slack.com/api/chat.postMessage',
                     //using my personal slack ID for now as POC
-                    { form: { token: credentials.slack.testToken, channel: credentials.slack.myId, text: ping.description} },
+                    { form: { token: process.env.slackTestToken, channel: process.env.slackMyId, text: ping.description} },
                     function (error, response, body) {
                         if (!error && response.statusCode == 200) {
                             console.log(body)
@@ -173,11 +173,11 @@ var transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
     xoauth2: xoauth2.createXOAuth2Generator({
-      user: credentials.xoauth2.user,
+      user: process.env.xoauth2User,
       scope: 'https://mail.google.com',
-      clientId: credentials.xoauth2.clientId,
-      clientSecret: credentials.xoauth2.clientSecret,
-      refreshToken: credentials.xoauth2.refreshToken,
+      clientId: process.env.xoauth2ClientId,
+      clientSecret: process.env.xoauth2ClientSecret,
+      refreshToken: process.env.xoauth2RefreshToken
     })
   }
 });
