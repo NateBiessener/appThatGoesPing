@@ -13,10 +13,10 @@ var nodemailer = require('nodemailer');
 var xoauth2 = require('xoauth2');
 
 var port = process.env.PORT || 3140;
-var mongoConnection = process.env.DATABASE_URL || 'mongodb://localhost:27017/ping'
+
 //import mongoose, connect to db and bring in User model
 var mongoose = require('mongoose');
-mongoose.connect(mongoConnection);
+mongoose.connect('mongodb://heroku_0zxz9k2h:uc3pv59236ednikfq46okn8e56@ds057066.mlab.com:57066/heroku_0zxz9k2h');
 var User = require('./models/userModel');
 
 // Twilio Credentials
