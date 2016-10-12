@@ -8,11 +8,11 @@ var socket = io();
 
 var myApp = angular.module('myApp', []);
 
-myApp.controller('aController', ['$scope', '$http', function($scope, $http){
+myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http, $q){
   socket.on('pingDelete', function(){
     console.log('in socket pingDelete event');
     displayPings();
-  })
+  });
 
   $scope.pings = [];
   // console.log('ng');
@@ -27,7 +27,7 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
     if( JSON.parse( localStorage.getItem( 'userProfile' ) ) ){
       // if so, save userProfile as $scope.userProfile
       $scope.userProfile = JSON.parse( localStorage.getItem( 'userProfile' ) );
-      console.log( 'loggedIn:', $scope.userProfile );
+      // console.log( 'loggedIn:', $scope.userProfile );
       //get users and check for new user
       displayPings();
       setNow();
@@ -71,7 +71,7 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
         emptyLocalStorage();
         $scope.loggedIn = false;
       }
-    })
+    });
   };
   //end authentication functions
 
@@ -96,7 +96,7 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
         slack: $scope.pingSlack
       }
     };
-    console.log('sending', objectToSend);
+    // console.log('sending', objectToSend);
     $http({
       method: 'POST',
       url: '/users/ping',
@@ -109,7 +109,7 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
       //hide form, show Add Ping button
       $scope.newPing = false;
     });
-  }
+  };
 
   //set edit form values to the clicked ping's values
   $scope.editPing = function(ping){
@@ -153,8 +153,8 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
       //switch back to pings display
       $scope.editPingView = false;
       $scope.pingView = true;
-    })
-  }
+    });
+  };
 
   //switches from edit ping form view to pings view
   $scope.backToThePings = function(){
@@ -177,7 +177,7 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
     }).then(function(response){
       displayPings();
     });
-  }
+  };
 
   //switch from contactInformation view to pings view
   $scope.viewPings = function(){
@@ -202,8 +202,8 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
         email: $scope.emailIn,
         smsPhone: $scope.phoneIn
       }
-    }
-    console.log(objectToSend);
+    };
+    // console.log(objectToSend);
     $http({
       method:'PUT',
       url:'users/user',
@@ -219,7 +219,7 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
   //used to order ng-repeat by actual time
   $scope.compareDate = function(item){
     return Date.parse(item.fireAt);
-  }
+  };
 
   //populate pings and contactInformation views and decide based on whether user is missing contact info
   function displayPings(){
@@ -227,15 +227,15 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
       method: 'GET',
       url: '/users/user'
     }).then(function(results){
-      console.log(results.data);
+      // console.log(results.data);
       //create array of userIds to check whether currently logged in user exists in db
       var users = results.data.map(function(index){
-        return index.userId
+        return index.userId;
       });
-      console.log(users);
+      // console.log(users);
       //if user_id not in db, create and save
-      var checkForUser = new Promise(
-        function(resolve, reject){
+      var checkForUser = function(){
+        return $q(function(resolve, reject){
           if (!(users.includes($scope.userProfile.user_id))) {
             var objectToSend = {
               userName: $scope.userProfile.name,//nickname
@@ -254,14 +254,16 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
             });
           }//end if
           else {
+            console.log('in else');
             resolve();
           }
-        }//end promise function
-      );//end Promise
-      checkForUser.then(function(){
+        });//end $q
+      };//end checkForUser
+      checkForUser().then(function(){
+        // console.log('in then');
         //filter all users down to logged in user, then store in variable (single element array, hence [0])
         var user = results.data.filter(function(user){
-          return user.userId = $scope.userProfile.user_id;
+          return user.userId === $scope.userProfile.user_id;
         })[0];
         //format firing times for pings
         $scope.pings = user.pings.map(function(ping){
@@ -284,7 +286,7 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
         }
       });
     });//end GET.then
-  };//end displayPings
+  }//end displayPings
 
   //create default datetime of 15 minutes from now with 0 values for seconds & milliseconds
   function setNow(){
@@ -294,7 +296,7 @@ myApp.controller('aController', ['$scope', '$http', function($scope, $http){
     now.setMinutes(now.getMinutes() + 15);
     //set 15 minutes from current time as default reminder time
     $scope.pingTime = now;
-  };
+  }
 
 }]);//end controller
 
