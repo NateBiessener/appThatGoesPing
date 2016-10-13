@@ -1,0 +1,140 @@
+html {
+  background-color: #caebf2;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: 'Cabin', sans-serif;
+}
+
+#logInTitle, #loggedInTitle {
+font-family: 'Mr Dafoe', cursive;
+}
+
+#logInTitle {
+  font-size: 6em;
+  color: #ff3b3f;
+}
+
+#logInButton {
+  color: #ff3b3f;
+}
+
+#logInView {
+  display: flex;
+  /*justify-content: center;*/
+  align-items: center;
+  flex-direction: column;
+  background-color: #f9cf00;
+  border-radius: 50%;
+  width: 500px;
+  height: 500px;
+}
+
+#loggedInTitle {
+  font-size: 4em;
+  color: #ff3b3f;
+}
+
+#loggedInView {
+  display: flex;
+}
+
+#circleContainer {
+  position: absolute;
+  top: 7.1vh;
+  left: 8.25vw;
+}
+
+#loggedInCircle {
+  display: flex;
+  /*justify-content: center;*/
+  align-items: center;
+  flex-direction: column;
+  background-color: #f9cf00;
+  border-radius: 50%;
+  width: 300px;
+  height: 300px;
+}
+
+#pingsContainer {
+  /*display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;*/
+  flex-direction: column;
+  background-color: #ff3b3f;
+  border-radius: 5%;
+  padding: 3px;
+  height: 62vh;
+  width: 63vw;
+  color: #ffffff;
+}
+
+#pingsBox {
+  overflow: auto;
+  /*display: flex;
+  flex-direction: row;*/
+  height: 51.2vh;
+  /*margin-top: 1.73vh;*/
+  width: 47.56vw;
+}
+
+.ping {
+  display: flex;
+  flex-direction: row;
+  margin-right: 3.14vw;
+}
+
+.pingButton {
+  float: right;
+  margin-left: auto;
+}
+
+.pingButton button {
+  margin-right: .5vw;
+}
+
+#pingsBox,#contactBox,#editBox {
+  margin-top: 1.73vh;
+}
+
+#pingsBox,#addPingBox,#contactBox,#editBox {
+  align-self: flex-start;
+  margin-left: 15vw;
+}
+
+button {
+  border: none;
+  background: #915a20;
+  background-image: -webkit-linear-gradient(top, #915a20, #643b0f);
+  background-image: -moz-linear-gradient(top, #915a20, #643b0f);
+  background-image: -ms-linear-gradient(top, #915a20, #643b0f);
+  background-image: -o-linear-gradient(top, #915a20, #643b0f);
+  background-image: linear-gradient(to bottom, #915a20, #643b0f);
+  /*-webkit-border-radius: 15;*/
+  /*-moz-border-radius: 15;*/
+  font-family: 'Cabin', sans-serif;
+  border-radius: 15px;
+  color: #ffffff;
+  font-size: 12px;
+  padding: 7px 14px 7px 14px;
+  text-decoration: none;
+  margin-top: .5vh;
+}
+
+button:hover {
+  background: #7d4912;
+  background-image: -webkit-linear-gradient(top, #7d4912, #4d3011);
+  background-image: -moz-linear-gradient(top, #7d4912, #4d3011);
+  background-image: -ms-linear-gradient(top, #7d4912, #4d3011);
+  background-image: -o-linear-gradient(top, #7d4912, #4d3011);
+  background-image: linear-gradient(to bottom, #7d4912, #4d3011);
+  text-decoration: none;
+}
+
+#contactBox input {
+  margin-top: 1vh;
+}

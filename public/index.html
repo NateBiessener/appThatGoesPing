@@ -7,58 +7,80 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="vendors/angular.min.js" charset="utf-8"></script>
     <script src="scripts/client.js" charset="utf-8"></script>
+    <link href="https://fonts.googleapis.com/css?family=Mr+Dafoe" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cabin" rel="stylesheet">
+    <link rel="stylesheet" href="styles/soStylish.css">
   </head>
   <body ng-controller="aController">
-    <div ng-hide="loggedIn">
-      <button type="button" ng-click='logIn()'>Log in</button>
+
+    <div ng-hide="loggedIn" id="logInView">
+      <h1 id="logInTitle">Ping!</h1>
+      <p ng-click='logIn()' id="logInButton">Log in</p>
     </div>
-    <div ng-show="loggedIn">
-      <div ng-show="pingView">
-        <button type="button" ng-click='viewContactInfo()'>Contact Information</button>
-        <br>
-        <div ng-show="newPing">
-          <input type="text" placeholder="Enter new Ping" ng-model="pingIn" value="">
-          <input type="datetime-local" ng-model="pingTime" value="">
+
+    <div ng-show="loggedIn" id="loggedInView">
+
+      <div id="circleContainer">
+        <div id="loggedInCircle">
+          <h1 id="loggedInTitle">Ping!</h1>
+          <button ng-show="editPingView" type="button" ng-click='backToThePings()'>Back</button>
+          <button ng-show="userInfoView" type="button" ng-click='viewPings()'>Pings</button>
+          <button  ng-show="pingView" type="button" ng-click='viewContactInfo()'>Contact Information</button>
+          <button type="button" ng-click='logOut()'>Log out</button>
+        </div>
+      </div>
+
+      <div id="pingsContainer">
+
+        <div id="pingsBox" ng-show="pingView">
+          <p>Pending pings:</p>
+          <div class="ping" ng-repeat="ping in pings | orderBy:compareDate track by $index">
+            {{ping.fireAt}} - {{ping.description}}
+            <div class="pingButton">
+              <button type="button" ng-click="editPing(ping)">&#x270E;</button>
+              <button type="button" ng-click="deletePing(ping._id)">&#x2613;</button>
+            </div>
+          </div>
+        </div>
+        <div id="addPingBox" ng-show="pingView">
+          <div ng-hide="newPing">
+            <button type="button" ng-click="makeAPing()">Add Ping</button>
+          </div>
+          <div ng-show="newPing">
+            <input type="text" placeholder="Enter new Ping" ng-model="pingIn" value="">
+            <input type="datetime-local" ng-model="pingTime" value="">
+            Send By:
+            Email<input type="checkbox" ng-model="pingEmail">
+            Text<input type="checkbox" ng-model="pingSMS">
+            Voice<input type="checkbox" ng-model="pingVoice">
+            Slack<input type="checkbox" ng-model="pingSlack">
+            <button type="button" ng-click='addPing()'>Submit</button>
+          </div>
+        </div>
+
+        <div id="contactBox" ng-show="userInfoView">
+          Email Address:<input type="email" ng-model="emailIn" value="" placeholder='name@example.com'>
+          <br>
+          Phone Number:<input type="tel" ng-model="phoneIn" value="" placeholder='123-456-7890'>
+          <br>
+          <button type="button" ng-click="updateContact()">Submit</button>
+        </div>
+
+        <div id="editBox" ng-show="editPingView">
+          <input type="text" placeholder="Enter new Ping" ng-model="editPingIn" value="">
+          <input type="datetime-local" ng-model="editPingTime" value="">
           Send By:
-          Email<input type="checkbox" ng-model="pingEmail">
-          Text<input type="checkbox" ng-model="pingSMS">
-          Voice<input type="checkbox" ng-model="pingVoice">
-          Slack<input type="checkbox" ng-model="pingSlack">
-          <button type="button" ng-click='addPing()'>Submit</button>
+          Email<input type="checkbox" ng-model="editPingEmail">
+          Text<input type="checkbox" ng-model="editPingSMS">
+          Voice<input type="checkbox" ng-model="editPingVoice">
+          Slack<input type="checkbox" ng-model="editPingSlack">
+          <button type="button" ng-click='actuallyEditPing()'>Submit</button>
         </div>
-        <div ng-hide="newPing">
-          <button type="button" ng-click="makeAPing()">Add Ping</button>
-        </div>
-        <br>
-        Pending pings:
-        <br><br>
-        <div ng-repeat="ping in pings | orderBy:compareDate track by $index">
-          {{ping.description}} at {{ping.fireAt}} <button type="button" ng-click="deletePing(ping._id)">&#x2613;</button><button type="button" ng-click="editPing(ping)">&#x270E;</button>
-        </div>
-        <br>
       </div>
-      <div ng-show="userInfoView">
-        <button type="button" ng-click='viewPings()'>Pings</button>
-        <br>
-        Email Address:<input type="email" ng-model="emailIn" value="" placeholder='name@example.com'>
-        <br>
-        Phone Number:<input type="tel" ng-model="phoneIn" value="" placeholder='123-456-7890'>
-        <br>
-        <button type="button" ng-click="updateContact()">Submit</button>
-      </div>
-      <div ng-show="editPingView">
-        <button type="button" ng-click='backToThePings()'>Back</button>
-        <br>
-        <input type="text" placeholder="Enter new Ping" ng-model="editPingIn" value="">
-        <input type="datetime-local" ng-model="editPingTime" value="">
-        Send By:
-        Email<input type="checkbox" ng-model="editPingEmail">
-        Text<input type="checkbox" ng-model="editPingSMS">
-        Voice<input type="checkbox" ng-model="editPingVoice">
-        Slack<input type="checkbox" ng-model="editPingSlack">
-        <button type="button" ng-click='actuallyEditPing()'>Submit</button>
-      </div>
-      <button type="button" ng-click='logOut()'>Log out</button>
+
+
+      <!-- <button type="button" ng-click='logOut()'>Log out</button> -->
+      <!-- <button type="button" ng-click='logOut()'>Log out</button> -->
     </div>
   </body>
 </html>

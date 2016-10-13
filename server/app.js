@@ -166,7 +166,7 @@ app.post('/voice', (req, res) => {
 });
 
 //15 minutes
-const INTERVAL = 60000 * 15;
+const INTERVAL = 60000;
 setInterval(checkPings, INTERVAL);
 
 var transporter = nodemailer.createTransport({
