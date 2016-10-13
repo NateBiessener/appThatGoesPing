@@ -272,7 +272,7 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
           })[0];
           //format firing times for pings
           $scope.pings = user.pings.map(function(ping){
-            ping.fireAt = new Date(ping.fireAt).toLocaleString([], {hour: '2-digit', minute:'2-digit'});
+            ping.displayTime = new Date(ping.fireAt).toLocaleString([], {hour: '2-digit', minute:'2-digit'});
             return ping;
           });
           //contactInformation form fields pre-populate with existing data
