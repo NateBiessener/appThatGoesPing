@@ -21,7 +21,6 @@ font-family: 'Mr Dafoe', cursive;
 
 #logInView {
   display: flex;
-  /*justify-content: center;*/
   align-items: center;
   flex-direction: column;
   background-color: #f9cf00;
@@ -47,7 +46,6 @@ font-family: 'Mr Dafoe', cursive;
 
 #loggedInCircle {
   display: flex;
-  /*justify-content: center;*/
   align-items: center;
   flex-direction: column;
   background-color: #f9cf00;
@@ -57,9 +55,6 @@ font-family: 'Mr Dafoe', cursive;
 }
 
 #pingsContainer {
-  /*display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;*/
   flex-direction: column;
   background-color: #ff3b3f;
   border-radius: 5%;
@@ -71,10 +66,7 @@ font-family: 'Mr Dafoe', cursive;
 
 #pingsBox {
   overflow: auto;
-  /*display: flex;
-  flex-direction: row;*/
   height: 48.1vh;
-  /*margin-top: 1.73vh;*/
   width: 47.56vw;
 }
 
@@ -110,8 +102,6 @@ button {
   background-image: -ms-linear-gradient(top, #915a20, #643b0f);
   background-image: -o-linear-gradient(top, #915a20, #643b0f);
   background-image: linear-gradient(to bottom, #915a20, #643b0f);
-  /*-webkit-border-radius: 15;*/
-  /*-moz-border-radius: 15;*/
   font-family: 'Cabin', sans-serif;
   border-radius: 15px;
   color: #ffffff;

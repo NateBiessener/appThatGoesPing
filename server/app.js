@@ -64,7 +64,7 @@ var checkPings = function(){
                   to: user.contactInformation.email, // list of receivers
                   subject: 'Ping!', // Subject line
                   text: ping.description //, // plaintext body
-                  // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
+                  // html: '<div style="background-color: #ff3b3f; border-radius: 50%; width: 250px; height: 250px;"><p style="font-size: 40px; color: #f9cf00; position: relative; left: 100px; top: 40px;">Ping!</p><br><p font-size:12px; color: #ffffff; position: relative; left: 100px; top: 40px;>' + ping.description + '</p></div>'
                 };
                 console.log('firing ping');
                 transporter.sendMail(mailOptions, function(error, info){
