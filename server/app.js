@@ -63,8 +63,8 @@ var checkPings = function(){
                   from: process.env.xoauth2User, // sender address
                   to: user.contactInformation.email, // list of receivers
                   subject: 'Ping!', // Subject line
-                  text: ping.description //, // plaintext body
-                  // html: '<div style="background-color: #ff3b3f; border-radius: 50%; width: 250px; height: 250px;"><p style="font-size: 40px; color: #f9cf00; position: relative; left: 100px; top: 40px;">Ping!</p><br><p font-size:12px; color: #ffffff; position: relative; left: 100px; top: 40px;>' + ping.description + '</p></div>'
+                  // text: ping.description //, // plaintext body
+                  html: '<table style="background-color: #ff3b3f; border-radius: 50%; width: 250px; height: 250px;"><tr><td align="center"><p style="margin: 0; padding: 0; font-size: 40px; color: #f9cf00;">Ping!</p><p style=" margin: 0; padding: 0; margin-top: 4px; font-size:12px; color: #ffffff;">' + ping.description + '</p></td></tr></div>'
                 };
                 console.log('firing ping');
                 transporter.sendMail(mailOptions, function(error, info){
@@ -166,7 +166,7 @@ app.post('/voice', (req, res) => {
 });
 
 //15 minutes
-const INTERVAL = 60000;
+const INTERVAL = 10000;
 setInterval(checkPings, INTERVAL);
 
 var transporter = nodemailer.createTransport({
