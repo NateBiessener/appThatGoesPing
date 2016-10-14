@@ -73,7 +73,7 @@ font-family: 'Mr Dafoe', cursive;
   overflow: auto;
   /*display: flex;
   flex-direction: row;*/
-  height: 51.2vh;
+  height: 48.1vh;
   /*margin-top: 1.73vh;*/
   width: 47.56vw;
 }
@@ -133,4 +133,31 @@ button:hover {
 
 #contactBox input {
   margin-top: 1vh;
+}
+
+input {
+  color: #ffffff;
+  background-color: #ff6060;
+  border-radius: 6px;
+  padding-left: 4px;
+}
+
+#newPingDescriptionIn, #editPingDescriptionIn {
+  width: 38vw;
+}
+
+#newPingDescriptionIn {
+  margin-bottom: 6px;
+}
+
+#emailIn {
+  width: 17vw;
+}
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
+::-webkit-input-placeholder {
+  color: #ffffff;
 }

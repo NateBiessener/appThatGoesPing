@@ -47,19 +47,21 @@
             <button type="button" ng-click="makeAPing()">Add Ping</button>
           </div>
           <div ng-show="newPing">
-            <input type="text" placeholder="Enter new Ping" ng-model="pingIn" value="">
-            <input type="datetime-local" ng-model="pingTime" value="">
+            <input id="newPingDescriptionIn" type="text" placeholder="Enter new Ping" ng-model="pingIn" value="">
+            <br>
+            <input id="newPingTimeIn" type="datetime-local" ng-model="pingTime" value="">
             Send By:
             Email<input type="checkbox" ng-model="pingEmail">
             Text<input type="checkbox" ng-model="pingSMS">
             Voice<input type="checkbox" ng-model="pingVoice">
             Slack<input type="checkbox" ng-model="pingSlack">
+            <br>
             <button type="button" ng-click='addPing()'>Submit</button>
           </div>
         </div>
 
         <div id="contactBox" ng-show="userInfoView">
-          Email Address:<input type="email" ng-model="emailIn" value="" placeholder='name@example.com'>
+          Email Address:<input id="emailIn" type="email" ng-model="emailIn" value="" placeholder='name@example.com'>
           <br>
           Phone Number:<input type="tel" ng-model="phoneIn" value="" placeholder='123-456-7890'>
           <br>
@@ -67,8 +69,9 @@
         </div>
 
         <div id="editBox" ng-show="editPingView">
-          <input type="text" placeholder="Enter new Ping" ng-model="editPingIn" value="">
-          <input type="datetime-local" ng-model="editPingTime" value="">
+          <input id="editPingDescriptionIn" type="text" placeholder="Enter new Ping" ng-model="editPingIn" value="">
+          <br>
+          <input id="editPingTimeIn" type="datetime-local" ng-model="editPingTime" value="">
           Send By:
           Email<input type="checkbox" ng-model="editPingEmail">
           Text<input type="checkbox" ng-model="editPingSMS">
