@@ -101,7 +101,7 @@ var checkPings = function(){
                 response.pause().say('Ping! ' + ping.description, {
                     voice:'woman',
                     language:'en-gb'
-                }).hangUp();
+                }).hangup();
 
                 client.calls.create({
                   url: 'https://glacial-citadel-87639.herokuapp.com/voice',
