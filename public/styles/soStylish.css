@@ -19,10 +19,6 @@ font-family: 'Mr Dafoe', cursive;
   color: #ff3b3f;
 }
 
-#logInButton {
-  color: #ff3b3f;
-}
-
 #logInView {
   display: flex;
   /*justify-content: center;*/
