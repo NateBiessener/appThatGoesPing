@@ -66,6 +66,9 @@
           Phone Number:<input type="tel" ng-model="phoneIn" value="" placeholder='123-456-7890'>
           <br>
           <button type="button" ng-click="updateContact()">Submit</button>
+          <p ng-bind="contactSaved">
+            {{contactSaved}}
+          </p>
         </div>
 
         <div id="editBox" ng-show="editPingView">

@@ -189,6 +189,7 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
   //start contactInformation functions
   // switch from pings view to contactInformation view
   $scope.viewContactInfo = function(){
+    $scope.contactSaved = '';
     $scope.pingView = false;
     $scope.userInfoView = true;
   };
@@ -212,6 +213,7 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
       console.log('update successful');
       $scope.emailIn = objectToSend.contactInformation.email;
       $scope.phoneIn = objectToSend.contactInformation.smsPhone;
+      $scope.contactSaved = 'Updated';
     });
   };
   //end contactInformation functions
