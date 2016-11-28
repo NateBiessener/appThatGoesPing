@@ -48,6 +48,8 @@ router.post('/user', function(req, res){
 
 //expects {userId, contactInformation}
 router.put('/user', function(req, res){
+  console.log('hit /user put');
+  console.log(req.body);
   User.findOneAndUpdate(req.body.userId, {contactInformation: req.body.contactInformation}, function(err,result){
     if (err) {
       console.log(err);

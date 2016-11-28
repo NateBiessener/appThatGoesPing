@@ -209,7 +209,8 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
       method:'PUT',
       url:'users/user',
       data: objectToSend
-    }).then(function(){
+    }).then(function(data){
+      // console.log(data);
       // console.log('update successful');
       $scope.emailIn = objectToSend.contactInformation.email;
       $scope.phoneIn = objectToSend.contactInformation.smsPhone;
@@ -269,9 +270,11 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
         }
         else {
           //filter all users down to logged in user, then store in variable (single element array, hence [0])
+          // console.log('results:',results);
           var user = results.data.filter(function(user){
             return user.userId === $scope.userProfile.user_id;
           })[0];
+          // console.log('user:', user);
           //format firing times for pings
           $scope.pings = user.pings.map(function(ping){
             ping.displayTime = new Date(ping.fireAt).toLocaleString([], {month: 'short', day: '2-digit', year: 'numeric', hour: '2-digit', minute:'2-digit'});
