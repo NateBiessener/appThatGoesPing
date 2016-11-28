@@ -48,18 +48,26 @@ router.post('/user', function(req, res){
 
 //expects {userId, contactInformation}
 router.put('/user', function(req, res){
-  console.log('hit /user put');
-  console.log(req.body);
-  User.findOneAndUpdate(req.body.userId, {contactInformation: req.body.contactInformation}, function(err,result){
-    if (err) {
+  var query = User.find({userId: req.body.userId}, function(err){
+    if(err){
       console.log(err);
       res.sendStatus(500);
     }
-    else {
-      // console.log(result);
-      res.sendStatus(200);
-    }
   });
+  query.then(function(user){
+    //user is an array with a single index at this point, unwrapping
+    user = user[0];
+    user.contactInformation = req.body.contactInformation;
+    user.save(function(err){
+        if (err) {
+          console.log(err);
+          res.sendStatus(500);
+        }
+        else {
+          res.sendStatus(200);
+        }
+    })
+  });//end query.then
 });
 
 //for use during testing
