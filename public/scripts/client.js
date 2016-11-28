@@ -1,8 +1,13 @@
 // console.log('script sourced');
 
 var lock = new Auth0Lock( 'L8O525uQHqNfaKoZqbovFurBHjPNzD8i', 'natebiessener.auth0.com');
-// log out url, from Auth0
-var logOutUrl = 'https://natebiessener.auth0.com/v2/logout';
+
+//local return URL, for local testing & debugging
+var localReturnURL = '?returnTo=http%3A%2F%2Flocalhost:3140/';
+//heroku return URL
+var herokuReturnURL = '?returnTo=https%3A%2F%2Fglacial-citadel-87639.herokuapp.com/';
+// log out url for Auth0 with appropriate return URL
+var logOutUrl = 'https://natebiessener.auth0.com/v2/logout' + herokuReturnURL;
 
 var socket = io();
 
@@ -10,7 +15,7 @@ var myApp = angular.module('myApp', []);
 
 myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http, $q){
   socket.on('pingDelete', function(){
-    console.log('in socket pingDelete event');
+    // console.log('in socket pingDelete event');
     displayPings();
   });
 
@@ -24,7 +29,8 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
   $scope.onLoad = function(){
     // console.log( 'in init' );
     // check if a user's info is saved in localStorage
-    if( JSON.parse( localStorage.getItem( 'userProfile' ) ) ){
+    var token = localStorage.getItem('userToken');
+    if (token) {
       // if so, save userProfile as $scope.userProfile
       $scope.userProfile = JSON.parse( localStorage.getItem( 'userProfile' ) );
       // console.log( 'loggedIn:', $scope.userProfile );
@@ -32,7 +38,6 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
       displayPings();
       setNow();
       $scope.loggedIn = true;
-
     }
     else{
       // if no local storage, make sure we are logged out and empty
@@ -43,35 +48,30 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
   $scope.onLoad();
 
   $scope.logIn = function(){
-    console.log( 'in logIn' );
-    lock.show( function( err, profile, token ) {
-      if (err) {
-        console.error( "auth error: ", err);
-      } // end error
-      else {
-
-        // save token to localStorage
-        localStorage.setItem( 'userToken', token );
-        // save user profile to localStorage
-        localStorage.setItem( 'userProfile', JSON.stringify( profile ) );
-        // reload page because dirtyhaxorz
-        location.reload();
-      } // end no error
-    }); //end lock.show
+    // console.log( 'in logIn' );
+    lock.show();
   };
 
-  $scope.logOut = function(){
-    $http({
-      method:'GET',
-      url: logOutUrl,
-    }).then( function( data ){
-      // if logged out OK
-      if( data.data == 'OK' ){
-        // empty localStorage
-        emptyLocalStorage();
-        $scope.loggedIn = false;
+  lock.on("authenticated", function(authResult) {
+    // Use the token in authResult to getProfile() and save it to localStorage
+    lock.getProfile(authResult.idToken, function(error, profile) {
+      if (error) {
+        console.log(error);
+        return;
       }
+
+      localStorage.setItem('userToken', authResult.idToken);
+      localStorage.setItem('userProfile', JSON.stringify(profile));
+      //rerun onload operations, now with user information
+      $scope.onLoad();
     });
+  });
+
+  $scope.logOut = function(){
+    //clear user's token and profile information locally and...
+    emptyLocalStorage();
+    //...hit auth0's logout url to clear their single sign on cookie
+    window.location = logOutUrl;
   };
   //end authentication functions
 
@@ -102,7 +102,7 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
       url: '/users/ping',
       data: objectToSend
     }).then(function(){
-      console.log('saved');
+      // console.log('saved');
       //clear form, refresh pings display
       $scope.pingIn = '';
       displayPings();
@@ -147,7 +147,7 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
       url: 'users/ping',
       data: objectToSend
     }).then(function(){
-      console.log('ping updated');
+      // console.log('ping updated');
       //update pings display
       displayPings();
       //switch back to pings display
@@ -196,7 +196,7 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
 
   //update user's stored contact information
   $scope.updateContact = function(){
-    console.log('updating contact information');
+    // console.log('updating contact information');
     var objectToSend = {
       userId: $scope.userProfile.user_id,
       contactInformation: {
@@ -210,7 +210,7 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
       url:'users/user',
       data: objectToSend
     }).then(function(){
-      console.log('update successful');
+      // console.log('update successful');
       $scope.emailIn = objectToSend.contactInformation.email;
       $scope.phoneIn = objectToSend.contactInformation.smsPhone;
       $scope.contactSaved = 'Updated';
@@ -251,12 +251,12 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
               url: '/users/user',
               data: objectToSend
             }).then(function(){
-              console.log('user saved');
+              // console.log('user saved');
               resolve(true);
             });
           }//end if
           else {
-            console.log('in else');
+            // console.log('in else');
             resolve(false);
           }
         });//end $q

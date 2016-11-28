@@ -14,9 +14,14 @@ var xoauth2 = require('xoauth2');
 
 var port = process.env.PORT || 3140;
 
+//for local testing before pushing changes to heroku
+var localDB = 'mongodb://localhost:27017/ping';
+//for heroku
+var herokuDB = 'mongodb://heroku_0zxz9k2h:uc3pv59236ednikfq46okn8e56@ds057066.mlab.com:57066/heroku_0zxz9k2h';
+
 //import mongoose, connect to db and bring in User model
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://heroku_0zxz9k2h:uc3pv59236ednikfq46okn8e56@ds057066.mlab.com:57066/heroku_0zxz9k2h');
+mongoose.connect(herokuDB);
 var User = require('./models/userModel');
 
 // Twilio Credentials
@@ -166,8 +171,8 @@ app.post('/voice', (req, res) => {
   res.send(response.toString());
 });
 
-//15 minutes
-const INTERVAL = 10000;
+//1 minute
+const INTERVAL = 60000;
 setInterval(checkPings, INTERVAL);
 
 var transporter = nodemailer.createTransport({
