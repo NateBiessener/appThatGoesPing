@@ -54,7 +54,7 @@
             Email<input type="checkbox" ng-model="pingEmail">
             Text<input type="checkbox" ng-model="pingSMS">
             Voice<input type="checkbox" ng-model="pingVoice">
-            Slack<input type="checkbox" ng-model="pingSlack">
+            <span ng-show="masterAccount">Slack<input type="checkbox" ng-model="pingSlack"></span>
             <br>
             <button type="button" ng-click='addPing()'>Submit</button>
           </div>

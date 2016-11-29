@@ -34,6 +34,9 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
       // if so, save userProfile as $scope.userProfile
       $scope.userProfile = JSON.parse( localStorage.getItem( 'userProfile' ) );
       // console.log( 'loggedIn:', $scope.userProfile );
+      if($scope.userProfile.email === "nathaniel.biessener@gmail.com"){
+        $scope.masterAccount = true;
+      }
       //get users and check for new user
       displayPings();
       setNow();
