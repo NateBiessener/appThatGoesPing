@@ -56,6 +56,7 @@
             Voice<input type="checkbox" ng-model="pingVoice">
             <span ng-show="masterAccount">Slack<input type="checkbox" ng-model="pingSlack"></span>
             <br>
+            Recurring<input type="checkbox" ng-model="pingRecur">
             <button type="button" ng-click='addPing()'>Submit</button>
           </div>
         </div>
@@ -80,6 +81,8 @@
           Text<input type="checkbox" ng-model="editPingSMS">
           Voice<input type="checkbox" ng-model="editPingVoice">
           Slack<input type="checkbox" ng-model="editPingSlack">
+          <br>
+          Recurring<input type="checkbox" ng-model="editPingRecur">
           <button type="button" ng-click='actuallyEditPing()'>Submit</button>
         </div>
       </div>

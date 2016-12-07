@@ -146,17 +146,37 @@ var checkPings = function(){
           );//end promise
           //ping will be deleted if any of the endpoints were successfully reached
           firingPing.then(function(){
-            user.pings.id(ping._id).remove();
-            user.save(function(err){
-              console.log('in deletion save');
-              if (err) {
-                console.log(err);
-              }
-              else {
-                console.log('ping deleted');
-                io.emit('pingDelete');
-              }
-            });//end user.save
+            if(ping.recurring){
+              //add a day to the pings' fireAt time
+              var tomorrow = user.pings.id(ping._id).fireAt.getDate() + 1;
+              user.pings.id(ping._id).fireAt.setDate(tomorrow);
+              //mongoose doesn't recognize 'in-place' Date object modifications, so we have to manually mark it as modified
+              user.pings.id(ping._id).markModified('fireAt');
+              user.save(function(err){
+                console.log('in recurring ping save');
+                if (err) {
+                  console.log(err);
+                }
+                else {
+                  console.log('ping saved');
+                  io.emit('pingUpdate');
+                }
+              });
+            }
+            //if ping is not recurring
+            else{
+              user.pings.id(ping._id).remove();
+              user.save(function(err){
+                console.log('in deletion save');
+                if (err) {
+                  console.log(err);
+                }
+                else {
+                  console.log('ping deleted');
+                  io.emit('pingUpdate');
+                }
+              });//end user.save
+            }//end ping not recurring
           });//end firingPing.then
         }//end ping fire
       });

@@ -14,8 +14,8 @@ var socket = io();
 var myApp = angular.module('myApp', []);
 
 myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http, $q){
-  socket.on('pingDelete', function(){
-    // console.log('in socket pingDelete event');
+  socket.on('pingUpdate', function(){
+    // console.log('in socket pingUpdate event');
     displayPings();
   });
 
@@ -97,7 +97,8 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
         sms: $scope.pingSMS,
         voice: $scope.pingVoice,
         slack: $scope.pingSlack
-      }
+      },
+      recurring: $scope.pingRecur
     };
     // console.log('sending', objectToSend);
     $http({
@@ -122,6 +123,7 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
     $scope.editPingSMS = ping.endPoints.sms;
     $scope.editPingVoice = ping.endPoints.voice;
     $scope.editPingSlack = ping.endPoints.slack;
+    $scope.editPingRecur = ping.recurring;
     //set for use in $scope.actuallyEditPing
     $scope.pingId = ping._id;
     //change to edit ping form view
@@ -143,7 +145,8 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
         sms: $scope.editPingSMS,
         voice: $scope.editPingVoice,
         slack: $scope.editPingSlack
-      }
+      },
+      recurring: $scope.editPingRecur
     };
     $http({
       method: 'PUT',

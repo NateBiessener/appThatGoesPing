@@ -10,7 +10,8 @@ var pingSchema = new Schema({
     sms: Boolean,
     voice: Boolean,
     slack: Boolean
-  }
+  },
+  recurring: Boolean
 });
 
 var userSchema = new Schema({

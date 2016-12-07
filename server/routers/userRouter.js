@@ -105,6 +105,9 @@ router.put('/ping', function(req, res){
     if (req.body.endPoints) {
       user.pings.id(req.body._id).endPoints = req.body.endPoints;
     }
+    if (req.body.recurring !== undefined) {
+      user.pings.id(req.body._id).recurring = req.body.recurring;
+    }
     user.save(function(err){
         if (err) {
           console.log(err);
@@ -159,7 +162,8 @@ router.post('/ping', function(req, res){
       sms: Boolean(req.body.endPoints.sms),
       voice: Boolean(req.body.endPoints.voice),
       slack: Boolean(req.body.endPoints.slack)
-    }
+    },
+    recurring: Boolean(req.body.recurring)
   };
   var query = User.find({userId: req.body.userId}, function(err){
     if(err){
