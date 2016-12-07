@@ -75,6 +75,7 @@ font-family: 'Mr Dafoe', cursive;
   flex-direction: row;
   align-items: center;
   margin-right: 3.14vw;
+  margin-bottom: .6vw;
 }
 
 .ping p {
