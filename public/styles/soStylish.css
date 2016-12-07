@@ -73,10 +73,16 @@ font-family: 'Mr Dafoe', cursive;
 .ping {
   display: flex;
   flex-direction: row;
+  align-items: center;
   margin-right: 3.14vw;
 }
 
+.ping p {
+  margin: 0;
+}
+
 .pingButton {
+  display: flex;
   float: right;
   margin-left: auto;
 }

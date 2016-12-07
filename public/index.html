@@ -35,7 +35,7 @@
         <div id="pingsBox" ng-show="pingView">
           <p>Pending pings:</p>
           <div class="ping" ng-repeat="ping in pings | orderBy:compareDate track by $index">
-            {{ping.displayTime}} - {{ping.description}}
+            <p>{{ping.displayTime}} - {{ping.description}}</p>
             <div class="pingButton">
               <button type="button" ng-click="editPing(ping)">&#x270E;</button>
               <button type="button" ng-click="deletePing(ping._id)">&#x2613;</button>
