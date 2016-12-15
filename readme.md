@@ -1,5 +1,42 @@
+Ping
+====
+Single page application that stores and sends reminders to users via their choice of email, text, and/or text-to-speech phone call. Slack integration was completed only in proof-of-concept form, and is only available to Ping's creator. Hosted on Heroku at https://glacial-citadel-87639.herokuapp.com.
+
+Recent Updates
+--------------
+* Added ability to create daily recurring Pings
+* Hid Slack option from users that aren't me
+* Fixed bug that would not allow users to log out
+
+Possible Future Updates
+-----------------------
+* Add a test suite
+* Add more integrations and endpoints - possibly Twitter or Google Calendar
+* Dig further into Twilio abilities, such as texting the application to create a new Ping
+* Add an anonymous interface to allow non-registered users to create Pings (requires refactoring of database)
+* Change date/time input to be more user friendly in non-Chrome browsers
+* Offer "15 minutes from now" style timing choices
+* Make the layout responsive, or at least mobile-friendly
+
+Technologies And Packages Used
+------------------------------
+* MongoDB
+* Express
+* Angular
+* Node
+* Auth0
+* Heroku
+* Nodemailer
+* Twilio
+* Slack API
+* Socket.io
+
+
+
+Original project scope
+======================
 App that goes “Ping”
-============================
+--------------------
 Nathaniel Biessener
 -------------------
 10/02/16 | Version 1
