@@ -167,7 +167,6 @@ var firePing = function(ping, user){
       if (ping.endPoints.voice) {
         response = '';
         response = new twilio.TwimlResponse();
-        //Paing is sic for pronunciation purposes
         response.pause().say('Ping! ' + ping.description, {
             voice:'woman',
             language:'en-gb'
@@ -175,7 +174,7 @@ var firePing = function(ping, user){
 
         client.calls.create({
           url: 'https://glacial-citadel-87639.herokuapp.com/voice',
-          to: "+1" + user.contactInformation.smsPhone,//TO DO --- LET USERS ENTER SEPARATE PHONE #'s'
+          to: "+1" + user.contactInformation.smsPhone,
           from: "+15072986921",
           ifMachine: "continue"
         }, function(err, call) {

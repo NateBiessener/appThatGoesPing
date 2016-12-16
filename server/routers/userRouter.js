@@ -84,7 +84,7 @@ router.delete('/user', function(req, res){
 
 //end /user routes
 //begin /ping routes
-//expects {user_id, (ping)_id, description, fireAt, endPoints{}}
+//expects {user_id, (ping)_id, description, fireAt, endPoints{}, recurring}
 router.put('/ping', function(req, res){
   var query = User.find({userId: req.body.userId}, function(err){
     if(err){
@@ -152,7 +152,7 @@ router.delete('/ping', function(req, res){
   })//end query.then
 });//end /ping post
 
-//expects body of {userID, pingDescription, pingTime, endPoints{email, sms, voice}}
+//expects body of {userID, pingDescription, pingTime, endPoints{email, sms, voice}, recurring}
 router.post('/ping', function(req, res){
   var ping = {
     description: req.body.pingDescription,

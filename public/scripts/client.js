@@ -16,7 +16,7 @@ var myApp = angular.module('myApp', []);
 myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http, $q){
   socket.on('pingUpdate', function(){
     // console.log('in socket pingUpdate event');
-    displayPings();
+    setDisplay();
   });
 
   $scope.pings = [];
@@ -25,7 +25,7 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
   // console.log({date: new Date().toLocaleString(), jsDate: Date.now()});
 
   //start authentication functions
-  //decide view on whether a user is logged in
+  //decide view based on whether a user is logged in
   $scope.onLoad = function(){
     // console.log( 'in init' );
     // check if a user's info is saved in localStorage
@@ -38,7 +38,7 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
         $scope.masterAccount = true;
       }
       //get users and check for new user
-      displayPings();
+      setDisplay();
       setNow();
       $scope.loggedIn = true;
     }
@@ -109,7 +109,7 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
       // console.log('saved');
       //clear form, refresh pings display
       $scope.pingIn = '';
-      displayPings();
+      setDisplay();
       //hide form, show Add Ping button
       $scope.newPing = false;
     });
@@ -155,7 +155,7 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
     }).then(function(){
       // console.log('ping updated');
       //update pings display
-      displayPings();
+      setDisplay();
       //switch back to pings display
       $scope.editPingView = false;
       $scope.pingView = true;
@@ -181,7 +181,7 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
       data: objectToSend,
       headers: {"Content-Type": "application/json;charset=utf-8"}
     }).then(function(response){
-      displayPings();
+      setDisplay();
     });
   };
 
@@ -231,7 +231,7 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
   };
 
   //populate pings and contactInformation views and decide based on whether user is missing contact info
-  function displayPings(){
+  function setDisplay(){
     return $http({
       method: 'GET',
       url: '/users/user'
@@ -243,40 +243,16 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
       });
       // console.log(users);
       //if user_id not in db, create and save
-      var checkForUser = function(){
-        return $q(function(resolve, reject){
-          if (!(users.includes($scope.userProfile.user_id))) {
-            var objectToSend = {
-              userName: $scope.userProfile.name,//nickname
-              userId: $scope.userProfile.user_id,//user_id
-              contactInformation: {
-                email: $scope.userProfile.email
-              }
-            };
-            $http({
-              method: 'POST',
-              url: '/users/user',
-              data: objectToSend
-            }).then(function(){
-              // console.log('user saved');
-              resolve(true);
-            });
-          }//end if
-          else {
-            // console.log('in else');
-            resolve(false);
-          }
-        });//end $q
-      };//end checkForUser
-      checkForUser().then(function(newUser){
+      checkForUser(users)
+      .then(function(isNewUser){
         // console.log('in then');
         //recursion to refresh display if the user is new, even though it's lazy :)
-        if (newUser) {
-          displayPings();
+        if (isNewUser) {
+          setDisplay();
         }
         else {
-          //filter all users down to logged in user, then store in variable (single element array, hence [0])
           // console.log('results:',results);
+          //filter all users down to logged in user, then store in variable (single element array, hence [0])
           var user = results.data.filter(function(user){
             return user.userId === $scope.userProfile.user_id;
           })[0];
@@ -303,7 +279,7 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
         }
       });
     });//end GET.then
-  }//end displayPings
+  }//end setDisplay
 
   //create default datetime of 15 minutes from now with 0 values for seconds & milliseconds
   function setNow(){
@@ -315,6 +291,31 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
     $scope.pingTime = now;
   }
 
+  var checkForUser = function(users){
+    return $q(function(resolve, reject){
+      if (!(users.includes($scope.userProfile.user_id))) {
+        var objectToSend = {
+          userName: $scope.userProfile.name,//nickname
+          userId: $scope.userProfile.user_id,//user_id
+          contactInformation: {
+            email: $scope.userProfile.email
+          }
+        };
+        $http({
+          method: 'POST',
+          url: '/users/user',
+          data: objectToSend
+        }).then(function(){
+          // console.log('user saved');
+          resolve(true);
+        });
+      }//end if
+      else {
+        // console.log('in else');
+        resolve(false);
+      }
+    });//end $q
+  };//end checkForUser
 }]);//end controller
 
 //does what it says
