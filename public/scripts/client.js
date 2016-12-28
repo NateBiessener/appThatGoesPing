@@ -90,15 +90,17 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
   $scope.addPing = function(){
     var objectToSend = {
       userId: $scope.userProfile.user_id,
-      pingDescription: $scope.pingIn,
-      pingTime: $scope.pingTime,
-      endPoints: {
-        email: $scope.pingEmail,
-        sms: $scope.pingSMS,
-        voice: $scope.pingVoice,
-        slack: $scope.pingSlack
-      },
-      recurring: $scope.pingRecur
+      ping: {
+        description: $scope.pingIn,
+        fireAt: $scope.pingTime,
+        endPoints: {
+          email: $scope.pingEmail || false,
+          sms: $scope.pingSMS || false,
+          voice: $scope.pingVoice || false,
+          slack: $scope.pingSlack || false
+        },
+        recurring: $scope.pingRecur
+      }
     };
     // console.log('sending', objectToSend);
     $http({
@@ -136,17 +138,19 @@ myApp.controller('aController', ['$scope', '$http', '$q', function($scope, $http
     //build objectToSend from form
     var objectToSend = {
       userId: $scope.userProfile.user_id,
-      //_id will have been set by $scope.editPing
-      _id: $scope.pingId,
-      description: $scope.editPingIn,
-      fireAt: $scope.editPingTime,
-      endPoints: {
-        email: $scope.editPingEmail,
-        sms: $scope.editPingSMS,
-        voice: $scope.editPingVoice,
-        slack: $scope.editPingSlack
-      },
-      recurring: $scope.editPingRecur
+      ping: {
+        //_id will have been set by $scope.editPing
+        _id: $scope.pingId,
+        description: $scope.editPingIn,
+        fireAt: $scope.editPingTime,
+        endPoints: {
+          email: $scope.editPingEmail,
+          sms: $scope.editPingSMS,
+          voice: $scope.editPingVoice,
+          slack: $scope.editPingSlack
+        },
+        recurring: $scope.editPingRecur
+      }
     };
     $http({
       method: 'PUT',

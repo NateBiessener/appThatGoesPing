@@ -80,7 +80,7 @@
           Email<input type="checkbox" ng-model="editPingEmail">
           Text<input type="checkbox" ng-model="editPingSMS">
           Voice<input type="checkbox" ng-model="editPingVoice">
-          Slack<input type="checkbox" ng-model="editPingSlack">
+          <span ng-show="masterAccount">Slack<input type="checkbox" ng-model="editPingSlack"></span>
           <br>
           Recurring<input type="checkbox" ng-model="editPingRecur">
           <button type="button" ng-click='actuallyEditPing()'>Submit</button>
