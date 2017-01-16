@@ -21,7 +21,7 @@ var herokuDB = 'mongodb://heroku_0zxz9k2h:uc3pv59236ednikfq46okn8e56@ds057066.ml
 
 //import mongoose, connect to db and bring in User model
 var mongoose = require('mongoose');
-mongoose.connect(herokuDB);
+mongoose.connect(localDB);
 var User = require('./models/userModel');
 
 // Twilio Credentials
