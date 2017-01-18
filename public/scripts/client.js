@@ -7,7 +7,7 @@ var localReturnURL = '?returnTo=http%3A%2F%2Flocalhost:3140/';
 //heroku return URL
 var herokuReturnURL = '?returnTo=https%3A%2F%2Fglacial-citadel-87639.herokuapp.com/';
 // log out url for Auth0 with appropriate return URL
-var logOutUrl = 'https://natebiessener.auth0.com/v2/logout' + localReturnURL;
+var logOutUrl = 'https://natebiessener.auth0.com/v2/logout' + herokuReturnURL;
 
 var socket = io();
 
