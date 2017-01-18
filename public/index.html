@@ -23,10 +23,10 @@
       <div id="circleContainer">
         <div id="loggedInCircle">
           <h1 id="loggedInTitle">Ping!</h1>
-          <button ng-show="editPingView" type="button" ng-click='backToThePings()'>Back</button>
-          <button ng-show="userInfoView" type="button" ng-click='viewPings()'>Pings</button>
-          <button  ng-show="pingView" type="button" ng-click='viewContactInfo()'>Contact Information</button>
-          <button type="button" ng-click='logOut()'>Log out</button>
+          <button class="navButton" ng-show="editPingView" type="button" ng-click='backToThePings()'>Back</button>
+          <button class="navButton" ng-show="userInfoView" type="button" ng-click='viewPings()'>Pings</button>
+          <button class="navButton" ng-show="pingView" type="button" ng-click='viewContactInfo()'>Contact Information</button>
+          <button id="logOutButton" type="button" ng-click='logOut()'>Log out</button>
         </div>
       </div>
 

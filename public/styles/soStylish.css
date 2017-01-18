@@ -66,8 +66,7 @@ font-family: 'Mr Dafoe', cursive;
 
 #pingsBox {
   overflow: auto;
-  height: 48.1vh;
-  width: 47.56vw;
+  max-height: 48.1vh;
 }
 
 .ping {
@@ -159,7 +158,8 @@ textarea:focus, input:focus{
   color: #ffffff;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
+  /*no longer a circle, but I'm lazily not changing the name right now...*/
   #circleContainer {
     position: absolute;
     top: 0;
@@ -169,8 +169,9 @@ textarea:focus, input:focus{
 
   #loggedInCircle {
     display: flex;
-    align-items: flex-start;
     flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     background-color: #f9cf00;
     border-radius: 0%;
     width: 100%;
@@ -182,9 +183,8 @@ textarea:focus, input:focus{
     margin-left: 2vw;
   }
 
-  #loggedInCircle button {
-    margin-top: 4.5vh;
-    margin-left: 10%;
+  #logOutButton {
+    margin-right: 2vw;
   }
 
   #logInView {
@@ -194,5 +194,9 @@ textarea:focus, input:focus{
 
   #logInTitle {
     font-size: 3.5em;
+  }
+
+  #pingsBox,#addPingBox,#contactBox,#editBox {
+    margin-left: 5vw;
   }
 }
