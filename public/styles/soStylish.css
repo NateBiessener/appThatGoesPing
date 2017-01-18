@@ -139,6 +139,7 @@ input {
   background-color: #ff6060;
   border-radius: 6px;
   padding-left: 4px;
+  margin-left: 4px;
 }
 
 #newPingDescriptionIn, #editPingDescriptionIn {
@@ -150,7 +151,7 @@ input {
 }
 
 #emailIn {
-  width: 17vw;
+  width: 140px;
 }
 
 textarea:focus, input:focus{
@@ -161,8 +162,15 @@ textarea:focus, input:focus{
   color: #ffffff;
 }
 
+.smallScreenBreak {
+  display: none;
+}
+
 /*thin screen style changes*/
 @media (max-width: 800px) {
+  .smallScreenBreak {
+    display: block;
+  }
   /*no longer a circle, but I'm lazily not changing the name right now...*/
   #circleContainer {
     position: absolute;
@@ -202,6 +210,10 @@ textarea:focus, input:focus{
 
   #pingsContainer {
     width: 85vw;
+  }
+
+  .ping {
+    margin-bottom: 15px;
   }
 
   #pingButtonContainer button {
