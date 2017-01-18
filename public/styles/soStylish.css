@@ -26,6 +26,7 @@ font-family: 'Mr Dafoe', cursive;
   background-color: #f9cf00;
   border-radius: 50%;
   width: 42vw;
+  /*yes, the height is in vw. This is a circle.*/
   height: 42vw;
 }
 
@@ -39,9 +40,11 @@ font-family: 'Mr Dafoe', cursive;
 }
 
 #circleContainer {
-  position: absolute;
-  top: 7.1vh;
-  left: 8.25vw;
+  position: relative;
+  width: 0;
+  height: 0;
+  top: -115px;
+  left: -135px;
 }
 
 #loggedInCircle {
@@ -60,7 +63,7 @@ font-family: 'Mr Dafoe', cursive;
   border-radius: 5%;
   padding: 3px;
   height: 62vh;
-  width: 63vw;
+  min-width: 63vw;
   color: #ffffff;
 }
 
@@ -78,16 +81,16 @@ font-family: 'Mr Dafoe', cursive;
 }
 
 .ping p {
-  margin: 0;
+  margin: 0 1vw 0 0;
 }
 
-.pingButton {
+#pingButtonContainer {
   display: flex;
   float: right;
   margin-left: auto;
 }
 
-.pingButton button {
+#pingButtonContainer button {
   margin-right: .5vw;
 }
 
@@ -97,7 +100,7 @@ font-family: 'Mr Dafoe', cursive;
 
 #pingsBox,#addPingBox,#contactBox,#editBox {
   align-self: flex-start;
-  margin-left: 15vw;
+  margin-left: 165px;
 }
 
 button {
@@ -158,7 +161,8 @@ textarea:focus, input:focus{
   color: #ffffff;
 }
 
-@media (max-width: 900px) {
+/*thin screen style changes*/
+@media (max-width: 800px) {
   /*no longer a circle, but I'm lazily not changing the name right now...*/
   #circleContainer {
     position: absolute;
@@ -194,6 +198,14 @@ textarea:focus, input:focus{
 
   #logInTitle {
     font-size: 3.5em;
+  }
+
+  #pingsContainer {
+    width: 85vw;
+  }
+
+  #pingButtonContainer button {
+    margin-left: 2.5vw;
   }
 
   #pingsBox,#addPingBox,#contactBox,#editBox {
