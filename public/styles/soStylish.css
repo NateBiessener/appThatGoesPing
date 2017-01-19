@@ -209,6 +209,7 @@ textarea:focus, input:focus{
   }
 
   #pingsContainer {
+    height: 70vh;
     width: 85vw;
   }
 
@@ -218,6 +219,10 @@ textarea:focus, input:focus{
 
   #pingButtonContainer button {
     margin-left: 2.5vw;
+  }
+
+  #pingsBox {
+    margin-top: 1vh;
   }
 
   #pingsBox,#addPingBox,#contactBox,#editBox {
