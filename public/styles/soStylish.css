@@ -62,7 +62,8 @@ font-family: 'Mr Dafoe', cursive;
   background-color: #ff3b3f;
   border-radius: 5%;
   padding: 3px;
-  height: 62vh;
+  min-height: 62vh;
+  max-height: 62vh;
   min-width: 63vw;
   color: #ffffff;
 }
@@ -171,6 +172,11 @@ textarea:focus, input:focus{
   .smallScreenBreak {
     display: block;
   }
+
+  body {
+    align-items: baseline;
+  }
+
   /*no longer a circle, but I'm lazily not changing the name right now...*/
   #circleContainer {
     position: absolute;
@@ -209,7 +215,8 @@ textarea:focus, input:focus{
   }
 
   #pingsContainer {
-    height: 72vh;
+    margin-top: 18vh;
+    max-height: none;
     width: 85vw;
   }
 
@@ -223,6 +230,7 @@ textarea:focus, input:focus{
 
   #pingsBox {
     margin-top: 1vh;
+    max-height: 52vh;
   }
 
   #pingsBox,#addPingBox,#contactBox,#editBox {
