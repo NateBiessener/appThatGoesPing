@@ -206,6 +206,8 @@ textarea:focus, input:focus{
   }
 
   #logInView {
+    margin-top: auto;
+    margin-bottom: auto;
     width: 85vw;
     height: 85vw;
   }
