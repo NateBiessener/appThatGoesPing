@@ -7,6 +7,7 @@ Recent Updates
 * Added ability to create daily recurring Pings
 * Hid Slack option from users that aren't me
 * Fixed bug that would not allow users to log out
+* Made display more responsive & mobile-friendly
 
 Possible Future Updates
 -----------------------
@@ -16,7 +17,6 @@ Possible Future Updates
 * Add an anonymous interface to allow non-registered users to create Pings (requires refactoring of database)
 * Change date/time input to be more user friendly in non-Chrome browsers
 * Offer "15 minutes from now" style timing choices
-* Make the layout responsive, or at least mobile-friendly
 
 Technologies And Packages Used
 ------------------------------
